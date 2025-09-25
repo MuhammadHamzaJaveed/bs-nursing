@@ -1,1 +1,0 @@
-<?php /**PATH C:\laragon\www\bs-nursing\vendor\filament\filament\src\/../resources/views/components/global-search/end.blade.php ENDPATH**/ ?>
