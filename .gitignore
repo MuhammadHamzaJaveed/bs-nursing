@@ -1,43 +1,56 @@
+# === Dependencies ===
 /node_modules
+/vendor
+
+# === Laravel specific ===
 /public/hot
 /public/storage
 /public/phpmyadmin
 /public/vendor
 /public/build
+/public/mix-manifest.json
+
+# Compiled & cache files
 /storage/*.key
-/vendor
+/storage/framework/views/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/cache/data/*
+/storage/logs/*
+/bootstrap/cache/*.php
+
+# === Environment files ===
 .env
 .env.backup
-.phpunit.result.cache
-docker-compose.override.yml
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
-/.idea
-/.vscode
-.vapor/
 .env.production
 .env.staging
-clear-cache.sh
-db-reset.sh
 .env.qa
 .env.uat
-public/mix-manifest.json
+
+# === Development / IDE ===
+/.idea
+/.vscode
+/.vagrant
 .vagrant/
 Vagrantfile
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
+clear-cache.sh
+db-reset.sh
 after.sh
 aliases
+_ide_*
+
+# === System files ===
 .DS_Store
 public/.DS_Store
 public/images/.DS_Store
 public/images/svg/.DS_Store
-.DS_Store
-_ide_*
-*.meta.php
-/public/phpmyadmin/temp/
-/storage/framework/views/
-/storage/framework/cache/
-/storage/framework/sessions/
-/storage/logs/
-/storage/framework/cache/data/
+
+# === Vapor / deployment ===
+.vapor/
+
+# === Homestead ===
+Homestead.json
+Homestead.yaml
