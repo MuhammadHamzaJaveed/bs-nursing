@@ -12,12 +12,9 @@
                 <ol>
                     <li class="pt-3 text-lg font-normal flex flex-row"><span
                             class="text-blue-900  pr-3"><x-heroicon-s-light-bulb class="h-6 w-6 text-blue-800" />
-                        </span>  You can select one or more colleges from the drop-down menu below. Selecting at least one college is mandatory.
+                        </span>  You can select minimum three or more colleges from the drop-down menu below. Selecting at least one college is mandatory.
                     </li>
-                    <li class="pt-3 text-lg font-normal flex flex-row"><span
-                            class="text-blue-900  pr-3"><x-heroicon-s-light-bulb class="h-6 w-6 text-blue-800" />
-                        </span> Before making your selection, it is strongly recommended to research each college’s fee structure, location, infrastructure, and available facilities by visiting their official websites.
-                    </li>
+                  
                     <li class="pt-3 text-lg font-normal flex flex-row"><span
                             class="text-blue-900  pr-3"><x-heroicon-s-light-bulb class="h-6 w-6 text-blue-800" />
                         </span> The order of your selected colleges is critical, as admissions will be based on your Order of Preference. Please ensure your preferences are set thoughtfully</li>
@@ -30,6 +27,15 @@
                     <li class="pt-3 text-lg font-normal flex flex-row"><span
                             class="text-blue-900  pr-3"><x-heroicon-s-light-bulb class="h-6 w-6 text-blue-800" />
                         </span> If you change your seat category, your college preference list will be reset, requiring you to set your preferences again.
+                    </li>
+                    <li class="pt-3 text-lg font-normal flex flex-row"><span
+                            class="text-blue-900  pr-3"><x-heroicon-s-light-bulb class="h-6 w-6 text-blue-800" />
+                        </span> There are total of 43 Nursing Colleges for Females and 1 for Male applying for admission BS Nursing.
+                    </li>
+                  
+                    <li class="pt-3 text-lg font-normal flex flex-row"><span
+                            class="text-blue-900  pr-3"><x-heroicon-s-light-bulb class="h-6 w-6 text-blue-800" />
+                        </span> If a candidate edits his/her application after the initial submission but before the deadline, only the most recent submission will be considered.
                     </li>
                   
                    

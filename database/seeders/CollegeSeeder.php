@@ -7,265 +7,78 @@ use Illuminate\Database\Seeder;
 
 class CollegeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         foreach ($this->colleges() as $key => $collegeData) {
             $college = new College();
             $college->id = $key + 1;
             $college->name = $collegeData['name'];
-            $college->district = $collegeData['district']; // Set district data
-            $college->openMeritSeats = $collegeData['openMeritSeats'];
-            $college->overSeasSeats = $collegeData['overSeasSeats'];
-            $college->disabilitySeats = $collegeData['disabilitySeats'];
-            $college->cholistanSeats = $collegeData['cholistanSeats'];
-            $college->isReciprocal = $collegeData['isReciprocal'];
-            $college->isBds = $collegeData['isBds'];
-            $college->isFemale = $collegeData['isFemale'];
-            $college->underdevelopedAreas = $collegeData['underdevelopedAreas'];
+            
+            // Force sabka district Lahore
+            $college->district = 'Lahore';
+
+            // Defaults for seats and flags
+            $college->openMeritSeats      = $collegeData['openMeritSeats']      ?? 0;
+            $college->overSeasSeats       = $collegeData['overSeasSeats']       ?? 0;
+            $college->disabilitySeats     = $collegeData['disabilitySeats']     ?? 0;
+            $college->cholistanSeats      = $collegeData['cholistanSeats']      ?? 0;
+            $college->underdevelopedAreas = $collegeData['underdevelopedAreas'] ?? 0;
+
+            $college->isReciprocal = $collegeData['isReciprocal'] ?? 0;
+            $college->isBds        = $collegeData['isBds'] ?? 0;
+            $college->isFemale     = $collegeData['isFemale'] ?? 0;
+
             $college->save();
         }
     }
 
-    /**
-     * @return string[]
-     */
-
     public function colleges(): array
     {
-        return
-            [
-              
-                
-                //Dental colleges
-                [
-                    'name' => "Islam Dental College, Sialkot",
-                    'district' => " Sialkot",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-
-                [
-                    'name' => "Avicenna Dental College, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                
-                [
-                    'name' => "Watim Dental College, Rawalpindi",
-                    'district' => "Rawalpindi",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Faryal Dental College, Sheikhupura",
-                    'district' => " Sheikhupura",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-
-                [
-                    'name' => "Dental Section, Multan Medical & Dental College, Multan",
-                    'district' => " Multan",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Dental College, Niazi Medical & Dental College, Sargodha",
-                    'district' => " Sargodha",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    
-                    'name' => "Dental Section, FMH College of Medicine & Dentistry, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 75,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Dental Section, University Medical & Dental College, Faisalabad (Female Only)",
-                    'district' => " Faisalabad",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 1,
-                ],
-                [
-                    'name' => "Dental College, University College of Medicine & Dentistry, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 75,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Dental Section, Lahore Medical & Dental College, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 75,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Dental Section, Akhtar Saeed Medical & Dental College, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Rashid Latif Dental College, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 75,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Margalla Institute of Health Sciences, Rawalpindi ",
-                    'district' => "Rawalpindi",
-                    'openMeritSeats' => 75,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Dental College, Bakhtawar Amin Medical & Dental College, Multan",
-                    'district' => " Multan",
-                    'openMeritSeats' => 75,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                
-                [
-                    'name' => "Azra Naheed Dental College, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Shahida Islam Dental College, Lodhran",
-                    'district' => " Lodhran",
-                    'openMeritSeats' => 75,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Dental Section, Sharif Medical & Dental College, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-                [
-                    'name' => "Rahbar College of Dentistry, Lahore",
-                    'district' => " Lahore",
-                    'openMeritSeats' => 50,
-                    'overSeasSeats' => 0,
-                    'underdevelopedAreas' => 0,
-                    'disabilitySeats' => 0,
-                    'cholistanSeats' => 0,
-                    'isReciprocal' => 0,
-                    'isBds' => 1,
-                    'isFemale' => 0,
-                ],
-
-
-
-            ];
+        return [
+            ['name' => 'College of Nursing, KEMU/Mayo Hospital, Lahore'],
+            ['name' => 'College of Nursing, FJMU/Sir Ganga Ram Hospital, Lahore'],
+            ['name' => 'College of Nursing, Ameer-ud-Din Medical College/ Lahore General Hospital, Lahore'],
+            ['name' => 'College of Nursing, Allama Iqbal Medical College/ Jinnah Hospital, Lahore'],
+            ['name' => 'College of Nursing, RMU / Holy Family Hospital, Rawalpindi'],
+            ['name' => 'College of Nursing, Benazir Bhutto Shaheed Hospital, Rawalpindi'],
+            ['name' => 'College of Nursing, Allied Hospital, Faisalabad'],
+            ['name' => 'College of Nursing, Nishtar Hospital, Multan'],
+            ['name' => 'College of Nursing, Bahawalpur Victoria Hospital, Bahawalpur'],
+            ['name' => 'College of Nursing, Service Hospital, Lahore'],
+            ['name' => 'College of Nursing, UCHS / Children’s Hospital, Lahore'],
+            ['name' => 'College of Nursing, Allama Iqbal Memorial Teaching Hospital, Sialkot'],
+            ['name' => 'College of Nursing, DHQ Hospital, Dera Ghazi Kahn'],
+            ['name' => 'College of Nursing, DHQ Hospital, Muzaffargarh'],
+            ['name' => 'College of Nursing, Sheikh Zayed Hospital, Rahim Yar Khan'],
+            ['name' => 'College of Nursing, Shahdrah Hospital, Lahore (male candidates only)', 'isFemale' => 0],
+            ['name' => 'College of Nursing, DHQ Hospital, Attock'],
+            ['name' => 'College of Nursing, DHQ Hospital, Bahawalnagar'],
+            ['name' => 'College of Nursing, DHQ Hospital, Bhakkar'],
+            ['name' => 'College of Nursing, DHQ Hospital, Chakwal'],
+            ['name' => 'College of Nursing, DHQ Hospital, Faisalabad'],
+            ['name' => 'College of Nursing, Eye cum General (THQ) Hospital, Gojra'],
+            ['name' => 'College of Nursing, DHQ Hospital, Gujranwala'],
+            ['name' => 'College of Nursing, Aziz Bhatti Shaheed Teaching Hospital, Gujrat'],
+            ['name' => 'College of Nursing, DHQ Hospital, Hafizabad'],
+            ['name' => 'College of Nursing, DHQ Hospital, Jhang'],
+            ['name' => 'College of Nursing, DHQ Hospital, Jhelum'],
+            ['name' => 'College of Nursing, DHQ Hospital, Kasur'],
+            ['name' => 'College of Nursing, DHQ Hospital, Khanewal'],
+            ['name' => 'College of Nursing, DHQ Hospital, Khushab'],
+            ['name' => 'College of Nursing, DHQ Hospital, Layyah'],
+            ['name' => 'College of Nursing, DHQ Hospital, Lodhran'],
+            ['name' => 'College of Nursing, DHQ Hospital, Mandi Bahaudin'],
+            ['name' => 'College of Nursing, DHQ Hospital, Mianwali'],
+            ['name' => 'College of Nursing, DHQ Hospital, Narowal'],
+            ['name' => 'College of Nursing, DHQ Hospital, Okara'],
+            ['name' => 'College of Nursing, DHQ Hospital, Pakpattan'],
+            ['name' => 'College of Nursing, DHQ Hospital, Rajanpur'],
+            ['name' => 'College of Nursing, DHQ Hospital, Rawalpindi'],
+            ['name' => 'College of Nursing, DHQ Hospital, Sahiwal'],
+            ['name' => 'College of Nursing, DHQ Hospital, Sargodha'],
+            ['name' => 'College of Nursing, DHQ Hospital, Sheikhupura'],
+            ['name' => 'College of Nursing, DHQ Hospital, Toba Tek Singh'],
+            ['name' => 'College of Nursing, DHQ Hospital, Vehari'],
+        ];
     }
 }
