@@ -95,39 +95,10 @@
                         </span>
                     </div>
 
-                    {{--<div class="mt-5">
-                        <div class="text-sm text-[#333333] font-normal tracking-[0.29px] font-sans mb-2">
-                            <span class="text-sm">Are you Overseas Pakistani/ Foreigner? <span
-                                        class="text-red-600">*</span></span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 mt-2">
-                            <div
-                                    class="{{ $foreigner == '1' ? 'mb-2 md:mb-0 transition-colors duration-0 md:mr-2 flex items-center py-2 px-2' : 'mb-2 md:mb-0 md:mr-2 transition-colors duration-0 py-2 px-2 flex items-center  ' }}">
-                                <div wire:ignore>
-                                    <x-radio id="yes" wire:model="foreigner"
-                                             value="1"/>
-                                </div>
-                                <span class="{{ $foreigner == '1' ? 'ml-2  font-normal text-md text-black' : 'ml-2 font-normal text-md text-black' }}">
-                                    Yes
-                                </span>
-                            </div>
-                            <div
-                                    class="{{ $foreigner == '0' ? 'mb-2 md:mb-0 transition-colors duration-0 md:mr-2 flex items-center py-2 px-2' : 'mb-2 md:mb-0 md:mr-2 transition-colors duration-0 py-2 px-2 flex items-center  ' }}">
-                                <div wire:ignore>
-                                    <x-radio id="no" wire:model="foreigner"
-                                             value="0"/>
-                                </div>
-                                <span class="{{ $foreigner == '0' ? 'ml-2  text-md font-normal text-black' : 'ml-2 font-normal text-md text-black' }}">
-                                    No
-                                </span>
-                            </div>
-                        </div>
-                    </div>--}}
-
                     <div class="mt-5">
                         <label class="text-sm">Select CNIC/POC/Passport/B-Form <span
                                     class="text-red-600">*</span></label>
-                        <x-select required :options="$this->allCnicPassport" wire:model="cnic" option-value="id" option-label="name"
+                        <x-select placeholder="Please Select CNIC/POC/Passport/B-Form " required :options="$this->allCnicPassport" wire:model="cnic" option-value="id" option-label="name"
                                   style="padding: 7px 2px; box-shadow: none; border: 1px solid rgba(0, 0, 0, 0.12);" />
                     </div>
 

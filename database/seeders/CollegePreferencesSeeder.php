@@ -16,7 +16,6 @@ class CollegePreferencesSeeder extends Seeder
             foreach ($this->CollegePreferences() as $key => $collegeData) {
                 $collegePref = new CollegePreference;
                 $collegePref->id = $key + 1;
-                $collegePref-> = ;
                 $collegePref->college_pref = $collegeData['college_pref'];
                 $collegePref->session_id = $collegeData['session_id']; // Set district data
                 $collegePref->save();

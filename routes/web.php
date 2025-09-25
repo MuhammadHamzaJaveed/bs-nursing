@@ -23,79 +23,13 @@ use App\Models\SelectionList;
 */
 
 Route::get('/', function () {
-    //restrict college to access the form
-    /*if (\auth()?->user()?->hasRole('College'))
-    {
-        Auth::logout();
-        // Invalidate the session
-        request()->session()->invalidate();
-
-        // Regenerate the session token (to prevent CSRF attacks)
-        request()->session()->regenerateToken();
-        // Redirect to the login page or home page
-        return redirect(route('login'))->with('message',
-            '<p>You can no longer submit the joining report because <br>the submission deadline has passed.</p>');
-    }*/
-
-
     if (Auth::check()) {
         $user = Auth::user();
 
-        $roles = [
-            'Super_Admin',
-            'Admin',
-            'Verification_Team',
-            'Supervisory_Team',
-            'Incharge_Team',
-            'Open_Merit',
-            'Disability_Students',
-            'Underdeveloped_Districts',
-            'Cholistan',
-            'Overseas',
-            'Reciprocal',
-            'College',
-            'ICT',
-        ];
-
-        if(!in_array(true, array_map(fn($role) => $user->hasRole($role), $roles))){
-            $selectionListIds = SelectionList::where('status', 1)
-                ->pluck('id')
-                ->toArray();
-            $meritlist = MeritListFromCollege::where('user_id',$user->id)
-                ->whereIn('selection_list_id', $selectionListIds)
-                ->where('college_to', '>', 0)
-                ->exists();
-
-            if (!$meritlist){
-                // Log out the user
-                Auth::logout();
-
-                // Invalidate the session
-                request()->session()->invalidate();
-
-                // Regenerate the session token (to prevent CSRF attacks)
-                request()->session()->regenerateToken();
-                // Redirect to the login page or home page
-                return redirect(route('login'))->with('message', 'Record Not Found in Selection List');
-            }
-        }
-
-        /*if ($user->submitted_at && $user->otps != null && $user->otps->is_verified == 0) {*/
+        if ($user->submitted_at && $user->otps != null && $user->otps->is_verified == 0) {
         // use for after dashboard
-        if ($user->submitted_at != null) {
+        /*if ($user->submitted_at != null) {*/
             return redirect('/form-dashboard');
-
-            //Restrict Student to access the after dashboard form
-            /* Auth::logout();
-
-             // Invalidate the session
-             request()->session()->invalidate();
-
-             // Regenerate the session token (to prevent CSRF attacks)
-             request()->session()->regenerateToken();
-             // Redirect to the login page or home page
-             return redirect(route('login'))->with('message',
-                 '<p>The user can no longer submit the joining report because <br>the submission deadline has passed.</p>');*/
         }
         return redirect('form');
     } else {
@@ -107,7 +41,7 @@ Route::get('/admin/login', function () {
     return redirect(route('login'));
 })->name('filament.auth.login');
 
-/*Route::get('/register', Register::class)->name('register-new-user');*/
+Route::get('/register', Register::class)->name('register-new-user');
 
 // Apply the 'auth', 'admin', and 'auth_session' middleware to the /form route.
 /*Route::middleware(['auth','admin','verified', config('jetstream.auth_session'), 'backToForm'])*/

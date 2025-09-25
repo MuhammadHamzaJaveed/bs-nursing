@@ -58,7 +58,7 @@
                 </a>
                 </div> --}}
                 <div class="mt-7 flex items-center gap-4">
-                    <input type="checkbox" wire:model.defer="agreed" id="agree-label" required class="w-5 h-5 rounded border-3 text-2xl font-bold text-green-600 bg-gray-100 border-gray-900 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-100 dark:border-gray-300">
+                    <input type="checkbox" wire:model.defer="agreed" id="agree-label" required class="w-5 h-5 rounded border-3 text-2xl font-bold text-blue-600 bg-gray-100 border-gray-900 focus:blue-green-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-100 dark:border-gray-300">
                         <span class="text-black font-semibold text-lg">I have read the instructions carefully.</span>
                 </input>
                 </div>

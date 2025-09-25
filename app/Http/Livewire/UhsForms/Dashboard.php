@@ -4,14 +4,14 @@ namespace App\Http\Livewire\UhsForms;
 
 use App\Enums\Otp\OtpReasons;
 use App\Enums\Otp\OtpTypes;
+use App\Jobs\ApplicationCompletedEmail;
 use App\Jobs\SendOtpEmail;
-use App\Models\MeritListFromCollege;
 use App\Models\OTPS;
-use App\Models\SelectionList;
 use App\Models\User;
+use App\Models\UserApplicationEdit;
 use App\Services\MediaServices\MediaServices;
 use App\Services\UserServices\UserServices;
-use App\Traits\SmsApi;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Dashboard extends Component
 {
-    use WithFileUploads, SmsApi;
+    use WithFileUploads;
 
     protected $mediaServices;
 
@@ -32,8 +32,6 @@ class Dashboard extends Component
 
     public $challan;
 
-    public $admissionChallan;
-
     public $personalDetails;
 
     public $seatCategories = [];
@@ -42,45 +40,24 @@ class Dashboard extends Component
 
     public $challanStatus = false;
 
-    public $admissionChallanStatus = false;
-
-    public $isJoined = false;
-
-    public $isStay = false;
-    public $isStayOrUpgraded = false;
-
-    public $selectedCollegeId = 0;
-
-    public $selectionList;
-
-    public $allUserColleges;
-
-    public $studentAffidavit;
-
-    public $fileName;
-    public $filePath;
-
-    public $seatCategory;
-    public $isOpenMerit;
-    public $isOversease;
-    public $is_Stayed;
-    public $is_Upgraded;
-    public $sameCollege;
+    /**
+     * @return void
+     */
 
     /**
      * @return array
      */
-    protected function rules(): array
+    /*protected function rules(): array
     {
         return [
-            'admissionChallan' => 'required',
+            'challan' => 'required',
         ];
-    }
+    }*/
 
     /**
      * Summary of boot
-     * @param MediaServices $mediaServices
-     * @param UserServices $userServices
+     * @param  MediaServices  $mediaServices
+     * @param  UserServices  $userServices
      * @return void
      */
     public function boot(MediaServices $mediaServices, UserServices $userServices)
@@ -91,147 +68,61 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->allUserColleges = MeritListFromCollege::query()
-            ->where('user_id', auth()->id())
-            ->with(['college', 'selectionList'])
-            ->get()
-            ->reject(function ($selectionItem) use (&$previousMeritStatus) {
-                $currentMerit = $selectionItem?->meritListFromCollege?->first();
-                if (!$currentMerit) {
-                    return false;
-                }
-                $currentIsStay = $currentMerit->is_stay ?? false;
-                $currentIsJoined = $currentMerit->is_joined ?? false;
-                if (isset($previousMeritStatus) && $previousMeritStatus['is_stay'] && $previousMeritStatus['is_joined']) {
-                    $previousMeritStatus = [
-                        'is_stay' => $currentIsStay,
-                        'is_joined' => $currentIsJoined,
-                    ];
-                    return true;
-                }
-                $previousMeritStatus = [
-                    'is_stay' => $currentIsStay,
-                    'is_joined' => $currentIsJoined,
-                ];
-                return false;
-            });
-        $this->isStayOrUpgraded = auth()->user()->meritlistfromcollege?->contains('is_stay', true);
-        $this->isStay = auth()->user()->meritlistfromcollege?->contains('is_stay', true);
-        $this->selectionList = SelectionList::where('status', 1)
-            ->latest()
-            ->with(['meritListFromCollege' => function ($query) {
-                $query->where('user_id', auth()->user()->id);
-            }])
-            ->first();
-
-        // if (isset($this->selectionList) && isset($this->selectionList->meritListFromCollege) && count($this->selectionList->meritListFromCollege) > 0) {
-        //     $this->selectedCollegeId = $this->selectionList?->meritListFromCollege[0]?->college?->id;
-        // }
-
-        $selectionListIds = SelectionList::where('status', 1)
-            ->pluck('id')
-            ->toArray();
-
-        $checkList = MeritListFromCollege::where('user_id', auth()->user()->id)
-            ->whereIn('selection_list_id', $selectionListIds)
-            ->get();
-
-        $this->isOpenMerit = $checkList->contains('seat_id', 1);
-        $this->isOversease = $checkList->contains('seat_id', 2);
-
-        $this->selectedCollegeId = MeritListFromCollege::where('user_id', auth()->user()->id)
-            ->whereIn('selection_list_id', $selectionListIds)
-            ->latest()
-            ->value('college_to');
-
-        if ($this->isStay) {
-            $this->selectedCollegeId = MeritListFromCollege::where('user_id', auth()->user()->id)
-                ->where('is_stay', 1)
-                ->first()?->college_to;
-        }
-
-        if (auth()->user()->otps && auth()->user()->otps->is_verified == 1) {
-            auth()->user()->otps->update([
+        $user = auth()->user();
+        if ($user->otps && $user->otps->is_verified == 1) {
+            $user->otps->update([
                 'is_verified' => 0,
             ]);
         }
-        $this->personalDetails = auth()->user()->personalDetails;
-        $this->image = Storage::disk('public')->url(auth()->user()->image->path);
 
-        /*if (auth()->user()->userAdmissionChallanImage) {
-            $this->admissionChallan = $this->getImageUrl(auth()->user()->userAdmissionChallanImage->path);
+        if (isset($user->image->path) && !empty($user->image->path)) {
+            $this->image = Storage::disk('public')->url($user->image->path);
+        }
+        $this->personalDetails = $user->personalDetails;
+
+        if ($user->userChallanImage) {
+            $this->challan = $this->getImageUrl($user->userChallanImage->path);
         }
 
-        $this->challanStatus(auth()->user()->challan_id);
-        $this->admissionChallanStatus(auth()->user()->admission_challan_id);*/
-        $this->seatCategories = auth()->user()->seatCategories->pluck('id')->toArray();
-        $this->isJoined = auth()->user()->meritlistfromcollege?->contains('is_joined', true);
+        $this->seatCategories = $user->seatCategories->pluck('id')->toArray();
 
-        if(boolval($this->isStayOrUpgraded)){
-            $college_from = '';
-            $merit_list_college = \App\Models\MeritListFromCollege::query()
-                ->where('user_id',auth()->user()->id)
-                ->where('is_stay',1)
-                ->first();
-            $college_to = \App\Models\College::where('id',$this->selectedCollegeId)->first();
+        if(empty($this->challanStatus($user->challan_id)))
+        {
+            $this->challanStatus = false;
+            auth()->user()->update([
+                'transaction_id' => null,
+                'is_paid' => 0,
+            ]);
+        }
+        if (!empty($user->transaction_id) && $user->is_paid == 1) {
+            $this->challanStatus = true;
         } else {
-            $merit_list_college =
-                isset($selectionList->meritListFromCollege) && count($selectionList->meritListFromCollege) > 0
-                    ? $selectionList->meritListFromCollege[0]
-                    : '';
-            $college_from =
-                isset($selectionList->meritListFromCollege) && count($selectionList->meritListFromCollege) > 0
-                    ? $selectionList->meritListFromCollege[0]->college_from
-                    : '';
-            $college_to =
-                isset($selectionList->meritListFromCollege) && count($selectionList->meritListFromCollege) > 0
-                    ? $selectionList->meritListFromCollege[0]->college
-                    : '';
+            $this->challanStatus($user->challan_id);
         }
 
-        if ($this->selectedCollegeId > 0) {
-            $path = MeritListFromCollege::where('college_to', $this->selectedCollegeId)
-                ->where('user_id', auth()->user()->id)
-                ->first();
-            if(auth()->user()->selection_seat_id == 1){
-                $path = MeritListFromCollege::where('user_id', auth()->user()->id)
-                    ->whereIn('selection_list_id', $selectionListIds)
-                    ->where('seat_id', 1)
-                    ->first();
+        /*if (!empty($user->userChallanImage)) {
+
+            if ($user->is_completed == 0 || $user->is_completed_email == 0) {
+                $this->sendCompletionEmailWithPDF();
+                $user->update([
+                    'is_completed' => 1,
+                    'is_completed_email' => 1,
+                ]);
             }
-            if(auth()->user()->selection_seat_id == 2){
-                $path = MeritListFromCollege::where('user_id', auth()->user()->id)
-                    ->whereIn('selection_list_id', $selectionListIds)
-                    ->where('seat_id', 2)
-                    ->first();
-            }
+        }*/
 
-            /*auth()->user()->meritListFromCollege()
-                ->where('college_to', $this->selectedCollegeId)
-                ->update([
-                    'student_affidavit_path' => $path,
-                    'is_joined' => 1,
-                ]);*/
-            $this->filePath = $path->student_affidavit_path;
-            $this->fileName = "student_report";
-        }
+        $this->userServices->updateUser([
+            'aggregate' => $this->calculateAggregate(),
+            'aggregate_overseas' => $this->calculateOverseasAggregate(),
 
-        $this->is_Stayed = MeritListFromCollege::where('user_id', auth()->user()->id)
-            ->where('is_stay', 1)
-            ->exists();
+        ], auth()->user()->id);
+    }
 
-        $this->is_Upgraded = MeritListFromCollege::where('user_id', auth()->user()->id)
-            ->where('is_stay', 0)
-            ->where('is_joined', 1)
-            ->exists();
+    protected $listeners = ['clearValidationError'];
 
-        /*$this->sameCollege = MeritListFromCollege::where('user_id', auth()->user()->id)
-            ->whereIn('selection_list_id',$selectionListIds)
-            ->where('is_stay', 0)
-            ->whereColumn('college_from', 'college_to')
-            // ->where('student_affidavit_path', '!=', null)
-            ->latest()
-            ->exists();*/
+    public function clearValidationError($field)
+    {
+        $this->resetErrorBag($field); // Clear validation error for the field
     }
 
     /**
@@ -241,23 +132,154 @@ class Dashboard extends Component
     private function getImageUrl($path): string
     {
         return Storage::disk('public')->url($path);
+
+    }
+
+    private function calculateAggregate()
+    {
+        $qualifications = auth()->user()?->qualifications;
+        $admissionTest = auth()->user()?->admissionTest;
+
+        $sscObtainedMarks = $qualifications?->ssc_marks_obtained;
+        $hsscObtainedMarks = $qualifications?->hssc_marks_obtained;
+
+        $mdCatObtainedMarks = $admissionTest?->md_cat_obtained_marks;
+
+        $programId = auth()->user()?->program_id;
+
+        if (
+            ($sscObtainedMarks && $hsscObtainedMarks) &&
+            ($mdCatObtainedMarks)
+        ) {
+            $averageTotal = 1100;
+
+            $ssc = $sscObtainedMarks / $qualifications?->ssc_total_marks * $averageTotal * 0.10;
+            $hssc = $hsscObtainedMarks / $qualifications?->hssc_total_marks * $averageTotal * 0.40;
+
+            $aggregation = [];
+
+            $mdCatPercentile = $mdCatObtainedMarks / 200 * 100;
+
+            if ((
+                    ($programId == 1 || $programId == 3) && $mdCatPercentile > 55) ||
+                ($programId == 2 && $mdCatPercentile > 45)
+            ) {
+                if ($mdCatObtainedMarks) {
+                    $mdCat = $mdCatObtainedMarks / 200 * $averageTotal * 0.50;
+
+                    $aggregation['mdCat'] = ($ssc + $hssc + $mdCat) / $averageTotal * 100;
+                }
+            } else {
+                $aggregation['mdCat'] = 0;
+            }
+
+            $maxAggregate = max($aggregation);
+
+            return $maxAggregate;
+        } else {
+            return 0;
+        }
+    }
+
+    private function calculateOverseasAggregate()
+    {
+        $qualifications = auth()->user()?->qualifications;
+        $admissionTest = auth()->user()?->admissionTest;
+
+        $sscObtainedMarks = $qualifications?->ssc_marks_obtained;
+        $hsscObtainedMarks = $qualifications?->hssc_marks_obtained;
+
+        $mCatObtainedMarks = $admissionTest?->mcat_obtained_marks;
+        $mdCatObtainedMarks = $admissionTest?->md_cat_obtained_marks;
+        $uCatObtainedMarks = $admissionTest?->ucat_obtained_marks;
+        $satObtainedMarks = ($admissionTest?->sat_biology_obtained_marks * 0.40) +
+            ($admissionTest?->sat_chemistry_obtained_marks * 0.35) +
+            ($admissionTest?->sat_phy_math_obtained_marks * 0.25);
+
+        $programId = auth()->user()?->program_id;
+
+        if (
+            ($sscObtainedMarks && $hsscObtainedMarks) &&
+            ($mdCatObtainedMarks || $uCatObtainedMarks || $satObtainedMarks || $mCatObtainedMarks)
+        ) {
+            $averageTotal = 1100;
+
+            $ssc = $sscObtainedMarks / $qualifications->ssc_total_marks * $averageTotal * 0.10;
+            $hssc = $hsscObtainedMarks / $qualifications->hssc_total_marks * $averageTotal * 0.40;
+
+            $aggregation = [];
+
+            $mdCatPercentile = $mdCatObtainedMarks / 200 * 100;
+
+            if ((
+                    ($programId == 1 || $programId == 3) && $mdCatPercentile >= 55) ||
+                ($programId == 2 && $mdCatPercentile >= 50)) {
+                if ($mdCatObtainedMarks) {
+                    $mdCat = $mdCatObtainedMarks / 200 * $averageTotal * 0.50;
+
+                    $aggregation['mdCat'] = ($ssc + $hssc + $mdCat) / $averageTotal * 100;
+                }
+            } else {
+                $aggregation['mdCat'] = 0;
+            }
+
+            if ($uCatObtainedMarks) {
+                $uCat = $uCatObtainedMarks / 3600 * $averageTotal * 0.50;
+
+                $aggregation['uCat'] = ($ssc + $hssc + $uCat) / $averageTotal * 100;
+            }
+
+            if ($satObtainedMarks) {
+                $sat2 = $satObtainedMarks / 800 * $averageTotal * 0.50;
+
+                $aggregation['sat2'] = ($ssc + $hssc + $sat2) / $averageTotal * 100;
+            }
+
+            if ($mCatObtainedMarks) {
+                $mCat = $mCatObtainedMarks / 528 * $averageTotal * 0.50;
+
+                $aggregation['mCat'] = ($ssc + $hssc + $mCat) / $averageTotal * 100;
+            }
+
+            $maxAggregate = max($aggregation);
+
+            return $maxAggregate;
+        } else {
+            return 0;
+        }
+    }
+
+
+    public function challan()
+    {
+        if (auth()->user()->challan_id) {
+            $this->challanStatus(auth()->user()->challan_id);
+        } else {
+            $this->emit('openModal', 'uhs-forms.modal.challan-submitted-failed');
+            return;
+        }
+        $this->userChallan();
     }
 
     public function redirectToOTPVerification()
     {
         $otp = $this->generateOTP();
-
         $userId = auth()->user()->id;
         $otpType = OtpTypes::EMAIL;
         $otpReason = OtpReasons::EDITFORM;
-        $phone_number = auth()->user()->personalDetails->mobile_number;
+        // $phone_number = auth()->user()->personalDetails->mobile_number;
 
-        $message = "Your UHS Online Admission Portal OTP is " . $otp . ". Never share this OTP with anyone. Regards UHS.";
+        // $message= "Your UHS Online Admission Portal OTP is ".$otp.". Never share this OTP with anyone. Regards UHS.";
         $this->userServices->updateOrCreateOTP($userId, $otp, $otpType, $otpReason);
-        $this->sendSms($phone_number, $message);
+        // $this->sendSms($phone_number, $message);
         dispatch(new SendOtpEmail(auth()->user()->email, $otp));
 
         return redirect()->route('uhs-form-otp');
+    }
+
+    public function redirectToEditForm()
+    {
+        return redirect()->route('uhs-form');
     }
 
     public function generateOTP()
@@ -267,238 +289,40 @@ class Dashboard extends Component
 
     public function submit()
     {
-        $this->validate();
-        $userId = auth()->user()->id;
-        $meritList = auth()->user()->meritlistfromcollege;
+        /*$this->validate();*/
 
-        $this->validate();
-
-        // if (!is_string($this->challan)) {
-        //     $this->mediaServices->updateOrCreateUserProfileImage([
-        //         'id' => auth()->user()->userChallanImage?->id
-        //     ], $this->formatImageData($this->challan, 'userChallanImage'));
-
-        //     $this->emit('challanUploaded');
-        // }
-
-        if (!is_string($this->admissionChallan)) {
-
-            $this->mediaServices->updateOrCreateUserProfileImage([
-                'id' => auth()->user()->userAdmissionChallanImage?->id,
-            ], $this->formatImageData($this->admissionChallan, 'userAdmissionChallanImage'));
-            $this->emit('challanUploaded');
-        }
-
-        $this->emit('$refresh');
-        $this->emit('openModal', 'uhs-forms.modal.image-submitted-successfully');
-        //        $this->challanSubmitted = true;
-    }
-
-    public function submitAffidavit()
-    {
-        if($this->isOpenMerit && $this->isOversease && auth()->user()->selection_seat_id == 0){
-            $this->validate([
-                'seatCategory' => 'required',
-            ]);
-        }
-
-        $this->validate([
-            'studentAffidavit' => 'required',
-        ]);
-
-
-        if(($this->seatCategory && $this->seatCategory == 'Open Merit') || auth()->user()->selection_seat_id == 1){
-            $activeSelectionListIds = SelectionList::where('status', 1)->pluck('id')->toArray();
-            if (isset($this->studentAffidavit)) {
-                $path = $this->studentAffidavit->store(auth()->user()->id . '_images/student-report', 'public');
-                auth()->user()->meritListFromCollege()
-                    ->whereIn('selection_list_id',$activeSelectionListIds)
-                    ->where('seat_id',1)
-                    // ->where('college_to', $this->selectedCollegeId)
-                    ->update([
-                        'student_affidavit_path' => $path,
-                    ]);
-            }
-            auth()->user()->meritListFromCollege()
-                ->whereIn('selection_list_id',$activeSelectionListIds)
-                ->where('seat_id',1)
-                // ->where('college_to', $this->selectedCollegeId)
-                ->update([
-                    'is_joined' => 1,
-                    'is_stay' => $this->isStayOrUpgraded,
-                ]);
-
-            auth()->user()->update([
-                'selection_seat_id' => 1
-            ]);
-            $this->emit('challanUploaded');
-            return;
-        }
-        if(($this->seatCategory && $this->seatCategory == 'Overseas') || auth()->user()->selection_seat_id == 2){
-            $activeSelectionListIds = SelectionList::where('status', 1)->pluck('id')->toArray();
-            if (isset($this->studentAffidavit)) {
-                $path = $this->studentAffidavit->store(auth()->user()->id . '_images/student-report', 'public');
-                auth()->user()->meritListFromCollege()
-                    ->whereIn('selection_list_id',$activeSelectionListIds)
-                    ->where('seat_id',2)
-                    // ->where('college_to', $this->selectedCollegeId)
-                    ->update([
-                        'student_affidavit_path' => $path,
-                    ]);
-            }
-            auth()->user()->meritListFromCollege()
-                ->whereIn('selection_list_id',$activeSelectionListIds)
-                ->where('seat_id',2)
-                // ->where('college_to', $this->selectedCollegeId)
-                ->update([
-                    'is_joined' => 1,
-                    'is_stay' => $this->isStayOrUpgraded,
-                ]);
-            auth()->user()->update([
-                'selection_seat_id' => 2
-            ]);
-            $this->emit('challanUploaded');
+        if (auth()->user()->challan_id) {
+            $this->challanStatus(auth()->user()->challan_id);
+        } else {
+            /*$this->emit('openModal', 'uhs-forms.modal.challan-submitted-failed');*/
+            $this->emit('showChallanModal', 'Challan Status', "Challan Form didn't found.", 'warning');
             return;
         }
 
-        if (isset($this->studentAffidavit)) {
-            if ($this->selectedCollegeId > 0) {
-                $path = $this->studentAffidavit->store(auth()->user()->id . '_images/student-report', 'public');
-                $activeSelectionListIds = SelectionList::where('status', 1)->pluck('id')->toArray();
-                auth()->user()->meritListFromCollege()
-                    ->where('college_to', $this->selectedCollegeId)
-                    ->whereIn('selection_list_id',$activeSelectionListIds)
-                    ->update([
-                        'student_affidavit_path' => $path,
-                        'is_joined' => 1,
-                    ]);
-            }
-        }
-        if ($this->isStayOrUpgraded) {
-            if ($this->selectedCollegeId > 0) {
-                $activeSelectionListIds = SelectionList::where('status', 1)->pluck('id')->toArray();
-                auth()->user()->meritListFromCollege()
-                    ->where('college_to', $this->selectedCollegeId)
-                    ->whereIn('selection_list_id',$activeSelectionListIds)
-                    ->update([
-                        'is_stay' => $this->isStayOrUpgraded,
-                    ]);
-            }
-        }
+        $this->userChallan();
+
+        /*$this->emit('challanUploaded');
+        $this->emit('openModal', 'uhs-forms.modal.image-submitted-successfully');*/
+        /*$this->emit('$refresh');*/
+
         $this->emit('challanUploaded');
-
+        /*$this->emit('openModal', 'uhs-forms.modal.image-submitted-successfully');*/
+        $this->emit('showChallanModal', 'Challan Status', "Challan Form has been submitted successfully.", 'success');
+        $this->emit('$refresh');
+        $this->challanSubmitted = true;
     }
-
 
     /**
      * @param $image
      * @param $collection
      * @return array
      */
-    /*private function formatImageData($image, $collection): array
-    {
-    return [
-    'imageName'  =>  $collection . '.' . $image->extension(),
-    'imagePath'  => $image->storeAs(auth()->user()->id . '_images', $collection . '.' . $image->extension(), 'public'),
-    'imageSize'  => $image->getSize(),
-    'userId'     => auth()->user()->id,
-    'model'      => User::class,
-    'disk'       => "public",
-    'collection' => $collection,
-    ];
-    }*/
-
-    public function formatImageData($image, $collection): array
-    {
-        $newWidth = 700;
-        $newHeight = 600;
-
-        $sourcePath = $this->getImagePath($image);
-
-        $extension = $image->extension();
-        $originalImage = $this->loadImage($sourcePath, $extension);
-
-        list($width, $height) = getimagesize($sourcePath);
-
-        $resizedImage = $this->resizeImage($originalImage, $width, $height, $newWidth, $newHeight);
-
-        $storagePath = $this->generateStoragePath($collection, $extension);
-        $imagePath = storage_path('app/public/' . $storagePath);
-
-        $this->ensureDirectoryExists(dirname($imagePath));
-        $this->saveImage($resizedImage, $imagePath, $extension);
-
-        imagedestroy($originalImage);
-        imagedestroy($resizedImage);
-
-        return $this->getFormattedImageData($storagePath, $collection, $extension, $imagePath);
-    }
-
-    private function getImagePath($image)
-    {
-        $sourcePath = $image?->getRealPath();
-        if (!file_exists($sourcePath)) {
-            throw new Exception('File does not exist at the specified path');
-        }
-        return $sourcePath;
-    }
-
-    private function loadImage($path, $extension)
-    {
-        switch ($extension) {
-            case 'jpeg':
-            case 'jpg':
-                return imagecreatefromjpeg($path);
-            case 'png':
-                return imagecreatefrompng($path);
-            case 'gif':
-                return imagecreatefromgif($path);
-            default:
-                throw new Exception('Unsupported image type');
-        }
-    }
-
-    private function resizeImage($originalImage, $width, $height, $newWidth, $newHeight)
-    {
-        $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
-        imagecopyresampled($resizedImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-        return $resizedImage;
-    }
-
-    private function generateStoragePath($collection, $extension)
-    {
-        return auth()->user()->id . '_images/' . $collection . '.' . $extension;
-    }
-
-    private function ensureDirectoryExists($directoryPath)
-    {
-        if (!file_exists($directoryPath)) {
-            mkdir($directoryPath, 0755, true);
-        }
-    }
-
-    private function saveImage($resizedImage, $path, $extension)
-    {
-        switch ($extension) {
-            case 'jpeg':
-            case 'jpg':
-                imagejpeg($resizedImage, $path, 90);
-                break;
-            case 'png':
-                imagepng($resizedImage, $path);
-                break;
-            case 'gif':
-                imagegif($resizedImage, $path);
-                break;
-        }
-    }
-
-    private function getFormattedImageData($storagePath, $collection, $extension, $imagePath)
+    private function formatImageData($image, $collection): array
     {
         return [
-            'imageName' => $collection . '.' . $extension,
-            'imagePath' => $storagePath,
-            'imageSize' => filesize($imagePath),
+            'imageName' => $collection . '.' . $image->extension(),
+            'imagePath' => $image->storeAs(auth()->user()->id . '_images', $collection . '.' . $image->extension(), 'public'),
+            'imageSize' => $image->getSize(),
             'userId' => auth()->user()->id,
             'model' => User::class,
             'disk' => 'public',
@@ -508,14 +332,7 @@ class Dashboard extends Component
 
     private function generateUniqueNumber(): int
     {
-        $number = 423562;
-
-        return $number + auth()->user()->id;
-    }
-
-    private function generateAdmissionUniqueNumber(): int
-    {
-        $number = 4235621;
+        $number = 42356211;
 
         return $number + auth()->user()->id;
     }
@@ -523,119 +340,207 @@ class Dashboard extends Component
     /**
      * @return StreamedResponse
      */
-    public function downloadChallan(): StreamedResponse
+    public function downloadChallan($type_id)
     {
-        $challanAmount = auth()->user()->program_id == 3 ? 4082 : 2082;
-
-        // Update the 'challan_amount' column in the 'users' table
-        $this->userServices->updateUser([
-            'challan_amount' => $challanAmount,
-        ], auth()->user()->id);
-
-        $this->userServices->updateUser([
-            'challan_id' => $this->generateUniqueNumber(),
-        ], auth()->user()->id);
-
-        $data = [
-            'title' => 'Sample PDF',
-            'cnic' => $this->personalDetails->cnic_passport,
-            'name' => auth()->user()->name,
-            'fatherName' => auth()->user()->father_name,
-            'challanId' => $this->generateUniqueNumber(),
-            'programId' => auth()->user()->program_id,
-        ];
-
-        $pdfContent = PDF::loadView('livewire.pdf.challan', $data)->output();
-
-        return response()->streamDownload(
-            function () use ($pdfContent) {
-                return print($pdfContent);
-            },
-            "Challan-Form.pdf"
-        );
-    }
-
-    /**
-     * @return StreamedResponse
-     */
-    public function downloadAdmissionChallan()
-    {
-        return redirect()->route('download.challan', [config('envdata.admission_challan_type_id'), true]);
-        // $challanAmount =  18112;
-        // $userId = auth()->user()->id;
-        // $challanId = $this->generateAdmissionUniqueNumber();
-        // $collegeName = auth()->user()->meritListDetail->college_name;
-        // $challanType= "Admission";
-        // $challanDueDate = Carbon::createFromFormat('m-d-Y', '12-20-2023');
-        // $this->userServices->updateOrCreateAdmission($userId,  $challanId, $challanAmount,$collegeName, $challanType,$challanDueDate);
-        // $data = [
-        //     'title' => 'Challan Pdf',
-        //     'cnic' => $this->personalDetails->cnic_passport,
-        //     'name' => auth()->user()->name,
-        //     'fatherName' => auth()->user()->father_name,
-        //     'challanId' => $this->generateAdmissionUniqueNumber(),
-        //     'programId'  => auth()->user()->program_id,
-        // ];
-
-        // $pdfContent = PDF::loadView('livewire.pdf.challanTwo', $data)->output();
-
-        // return response()->streamDownload(
-        //     function () use ($pdfContent) {
-        //         return print($pdfContent);
-        //     },
-        //     "Challan-Form.pdf"
-        // );
+        return redirect()->route('download.challan', [$type_id]);
     }
 
     private function challanStatus($id)
     {
-        if (isset($id) && !empty($id)) {
-            $response = Http::withHeaders([
-                'Accept' => 'application/json',
-                'content-type' => 'application/json',
-            ])->get('https://fms.uhs.edu.pk/login/get_challan_status/' . base64_encode($id));
+        try {
+            if (isset($id) && !empty($id)) {
+                $response = Http::withHeaders([
+                    'Accept' => 'application/json',
+                    'content-type' => 'application/json',
+                ])->get('https://fms.uhs.edu.pk/login/get_challan_status/' . base64_encode($id));
 
-            $status = $response->getbody()->getContents();
-            if ($status == 1) {
-                $this->challanStatus = true;
-                auth()->user()->update([
-                    'transaction_id' => $id,
-                    'is_paid' => 1,
-                ]);
-                return true;
-            }
-            if ($status == 0) {
-                $this->challanStatus = false;
+                $status = $response->getbody()->getContents();
+                if ($status == 1) {
+                    $this->challanStatus = true;
+                    auth()->user()->update([
+                        'transaction_id' => $id,
+                        'is_paid' => 1,
+                    ]);
+                    return true;
+                }
+                if ($status == 0) {
+                    $this->challanStatus = false;
+                    return false;
+                }
                 return false;
             }
             return false;
+        } catch (\Exception $e) {
+            return false;
         }
-        return false;
     }
 
-    private function admissionChallanStatus($id)
+    private function sendCompletionEmailWithPDF()
     {
-        if (isset($id) && !empty($id)) {
-            $response = Http::withHeaders([
-                'Accept' => 'application/json',
-                'content-type' => 'application/json',
-            ])->get('https://fms.uhs.edu.pk/login/get_challan_status/' . base64_encode($id));
+        try {
+            $user = auth()->user();
+            if ($user->is_completed_email == 0) {
+                $mbbsCollegePreferences = auth()->user()->mbbsCollegePreferences->pluck('college_pref')->toArray();
+                $mbbsCollegeForeignerAsOpenMeritPreferences = auth()->user()->mbbsCollegeForeignerAsOpenMeritPreferences->pluck('college_pref')->toArray();
+                $bdsCollegePreferences = auth()->user()->bdsCollegePreferences->pluck('college_pref')->toArray();
+                $bdsCollegeForeignerAsOpenMeritPreferences = auth()->user()->bdsCollegeForeignerAsOpenMeritPreferences->pluck('college_pref')->toArray();
 
-            $status = $response->getbody()->getContents();
-            if ($status == 1) {
-                $this->admissionChallanStatus = true;
-                auth()->user()->update([
-                    'admission_is_paid' => 1,
-                ]);
-                return true;
+                $pdfData = [
+                    'title' => 'Sample PDF',
+                    // Challan ID and Application ID
+                    'challanId' => $user?->challan_id,
+                    'applicationId' => $user?->id,
+                    'seatCategory' => $user?->seatCategories?->pluck('id')?->toArray(),
+                    // Personal Information
+                    'cnic' => $user?->personalDetails?->cnic_passport,
+                    'name' => $user?->name,
+                    'foreigner' => $user?->foreigner,
+                    'fatherName' => $user?->father_name,
+                    'motherName' => $user?->personalDetails?->mother_name,
+                    'gender' => $user?->personalDetails?->gender?->name,
+                    'nationality' => $user?->personalDetails?->nationality?->name,
+                    'country' => $user?->personalDetails?->country,
+                    'dateOfBirth' => $user?->personalDetails?->date_of_birth,
+                    'districtOfDomicile' => $user?->personalDetails?->district?->name,
+                    'areaOfResidence' => $user?->personalDetails?->area?->name,
+                    'mailingAddress' => $user?->personalDetails?->address,
+                    'telephone' => $user?->personalDetails?->telephone_number,
+                    'secondaryNumber' => $user?->personalDetails?->secondary_number,
+                    'phoneNumber' => $user?->personalDetails?->mobile_number,
+                    'email' => $user?->email,
+                    // Qualifications Section
+                    'sscExam' => $user?->qualifications?->sscExam?->name,
+                    'hsscExam' => $user?->qualifications->hsscExam?->name,
+                    'sscSubjects' => $user?->qualifications?->ssc_science_subjects,
+                    'hsscSubjects' => $user?->qualifications?->hssc_science_subjects,
+                    'sscInstitution' => $user?->qualifications?->sscInstitution->name,
+                    'hsscInstitution' => $user?->qualifications?->hsscInstitution->name,
+                    'sscBoard' => $user?->qualifications?->sscBoard?->name,
+                    'sscRollNumber' => $user?->qualifications?->ssc_roll_no,
+                    'hsscRollNumber' => $user?->qualifications?->hssc_roll_no,
+                    'hsscBoard' => $user?->qualifications?->hsscBoard?->name,
+                    'sccPassingYear' => $user?->qualifications?->ssc_passing_year,
+                    'hsccPassingYear' => $user?->qualifications?->hssc_passing_year,
+                    'sscMarks' => $user?->qualifications?->ssc_marks_obtained,
+                    'hsscMarks' => $user?->qualifications?->hssc_marks_obtained,
+                    'sscTotalMarks' => $user?->qualifications?->ssc_total_marks,
+                    'hsscTotalMarks' => $user?->qualifications?->hssc_total_marks,
+                    'physics' => $user?->qualifications?->physics_score,
+                    'chemistry' => $user?->qualifications?->chemistry_score,
+                    'biology' => $user?->qualifications?->biology_score,
+                    'physicsTotal' => $user?->qualifications?->physics_total_score,
+                    'chemistryTotal' => $user?->qualifications?->chemistry_total_score,
+                    'biologyTotal' => $user?->qualifications?->biology_total_score,
+                    // Programs Name
+                    'programs' => $user->program->name,
+                    // Seats Category
+                    'seats' => implode(', ', $user->seatCategories->pluck('name')->toArray()),
+                    //Aggregate
+                    'aggregate' => $user->aggregate,
+                    'aggregate_overseas' => $user->aggregate_overseas !== null ? $user->aggregate_overseas : null,
+                    //MDACT INFORMATION
+                    'mdcatCnic' => $user->admissionTest->md_cat_cnic,
+                    'mdcatCenter' => optional($user->admissionTest->mdcatCenter)->name ?? 'N/A',
+                    'mdcatMarks' => $user->admissionTest->md_cat_obtained_marks,
+                    'mdcatApplicantCnic' => $user->personalDetails->cnic_passport,
+                    'mdcatPassingYear' => $user?->admissionTest?->mdcatPassingYear?->name,
+                    //SAT INFORMATION
+                    'satTestDate' => $user?->admissionTest?->sat_test_date,
+                    'satBiologyMarks' => $user?->admissionTest?->sat_biology_obtained_marks,
+                    'satChemistryMarks' => $user?->admissionTest?->sat_chemistry_obtained_marks,
+                    'satPhyMathMarks' => $user?->admissionTest?->sat_phy_math_obtained_marks,
+                    'satUserName' => $user?->admissionTest?->sat_username,
+                    'satPassword' => $user?->admissionTest?->sat_password,
+                    //UCAT INFORMATION
+                    'ucatId' => $user?->admissionTest?->ucat_candidate_id,
+                    'ucatTestDate' => $user?->admissionTest?->ucat_test_date,
+                    'ucatObtainedMarks' => $user?->admissionTest?->ucat_obtained_marks,
+                    'ucatBandScore' => $user?->admissionTest?->ucat_band,
+                    // MCAT INFORMATION
+                    'mcatTestDate' => $user?->admissionTest?->mcat_test_date,
+                    'mcatObtaniedMarks' => $user?->admissionTest?->mcat_obtained_marks,
+                    'mcatUserName' => $user?->admissionTest?->mcat_username,
+                    'mcatPassword' => $user?->admissionTest?->mcat_password,
+                    //College Preferences
+                    'mbbsPreference' => !empty($mbbsCollegePreferences) ? json_decode($mbbsCollegePreferences[0], true) : [],
+                    'bdsPreference' => !empty($bdsCollegePreferences) ? json_decode($bdsCollegePreferences[0], true) : [],
+                    'mbbsForeignAsOpenMeritPreference' => !empty($mbbsCollegeForeignerAsOpenMeritPreferences) ? json_decode($mbbsCollegeForeignerAsOpenMeritPreferences[0], true) : [],
+                    'bdsForeignAsOpenMeritPreference' => !empty($bdsCollegeForeignerAsOpenMeritPreferences) ? json_decode($bdsCollegeForeignerAsOpenMeritPreferences[0], true) : [],
+                    'image_pages' => false,
+                ];
+
+                $pdfContent = PDF::loadView('livewire.pdf.myApplication', $pdfData, ['satCnic'])->output();
+
+                dispatch(new ApplicationCompletedEmail($user->email, base64_encode($pdfContent)));
             }
-            if ($status == 0) {
-                $this->admissionChallanStatus = false;
-                return false;
-            }
-            return false;
+        } catch (\Exception $e) {
+            dd($e->getMessage(),
+            $e->getFile(),
+            $e->getLine());
+
         }
-        return false;
+    }
+
+    public function finalSubmit()
+    {
+        try {
+            $user = auth()->user();
+            if (!empty($user->userChallanImage)) {
+                if($user->is_paid == 1 && !empty($user->transaction_id))
+                {
+                    if ($user->is_completed == 0 || $user->is_completed_email == 0) {
+                        $this->sendCompletionEmailWithPDF();
+                        $user->update([
+                            'is_completed' => 1,
+                            'is_completed_email' => 1,
+                        ]);
+                        UserApplicationEdit::create([
+                            'user_id' => $user->id,
+                            'action' => 'final_submit',
+                            'time' => Carbon::now(),
+                        ]);
+
+                        $this->emit('finalSubmit');
+                        $this->emit('showChallanModal', 'Application Status', "Application Submitted Successfully.", 'success');
+                        $this->emit('$refresh');
+                    }
+                }
+                else
+                {
+                    /*$this->emit('openModal', 'uhs-forms.modal.challan-status-unpaid');*/
+                    $this->emit('showChallanModal', 'Challan Status', 'Challan Status is unpaid.', 'error');
+                return;
+                }
+            }
+            else
+            {
+                /*$this->emit('openModal', 'uhs-forms.modal.challan-submitted-failed');*/
+                $this->emit('showChallanModal', 'Challan Status', "Challan Form didn't found.", 'warning');
+                return;
+            }
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+
+    public function userChallan(): void
+    {
+        if (empty(auth()->user()->userChallanImage) && empty($this->challan))
+        {
+            $this->validate([
+                'challan' => 'required',
+            ]);
+        }
+
+        if (!is_string($this->challan)  && $this->challan) {
+            $this->mediaServices->updateOrCreateUserProfileImage([
+                'id' => auth()->user()->userChallanImage?->id,
+            ], $this->formatImageData($this->challan, 'userChallanImage'));
+            $this->resetErrorBag('challan');
+            $this->challan = null;
+        }
     }
 
     /**

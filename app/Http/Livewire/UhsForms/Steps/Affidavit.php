@@ -268,10 +268,11 @@ class Affidavit extends Component
         }
 
 
-        $this->emit('openModal', 'uhs-forms.modal.image-submitted-successfully');
+        /*$this->emit('openModal', 'uhs-forms.modal.image-submitted-successfully');*/
 
         $this->emit('completeStep', 'step7Completed');
-        $this->emit('openModal', 'uhs-forms.modal.form-submitted-successfully');
+        $this->emit('showApplicationIncompleteModal');
+        /*$this->emit('openModal', 'uhs-forms.modal.form-submitted-successfully');*/
     }
 //    private function formatImageData($image, $collection): array
 //    {

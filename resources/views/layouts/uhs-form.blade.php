@@ -61,7 +61,8 @@
        <x-footer-uhs/>
        
     </div>
-
+    <livewire:challan-status-modal />
+    <livewire:application-incomplete-modal />
     @stack('modals')
 
 

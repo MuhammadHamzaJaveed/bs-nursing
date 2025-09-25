@@ -11,7 +11,6 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    {{-- <h5 class="modal-title" id="exampleModalLabel">chent pak dm dm</h5> --}}
                     <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                     </button>
@@ -21,9 +20,7 @@
                         <div class="col-md-12">
                             <img src="{{ asset('images/public_notice_watim_medical_college.jpg') }}"/>
                         </div>
-                        {{--<div class="col-md-6">
-                            <img src="{{ asset('images/ict_english_notice2.jpg') }}" />
-                        </div>--}}
+
                     </div>
                 </div>
             </div>
@@ -61,20 +58,14 @@
                             <x-button label="Private Dental Colleges in Punjab"
                                       style="color: white; background-color: blueviolet" right-icon="cloud-download"/>
                         </a>
-                        {{--<a href="https://uhs.edu.pk/mcat/privatecollegesbds1.pdf" target="_blank">
-                            <x-button label="Private Dental Colleges in Punjab"
-                                style="color: white; background-color: blueviolet" right-icon="cloud-download" />
-                        </a>--}}
+
                     </div>
                     <div class="mt-5">
                         <a href="#">
                             <x-button label="For Complaint: +92-42-111-33-33-66"
                                       style="color: white; background-color: red" right-icon="phone"/>
                         </a>
-                        {{--<a href="https://uhs.edu.pk/mcat/uanemail.pdf" target="_blank">
-                            <x-button label="For Queries and Complaints"
-                                style="color: white; background-color: red" right-icon="phone" />
-                        </a>--}}
+
                     </div>
 
                 </div>
@@ -159,14 +150,14 @@
                                         {{ __('Sign In') }}
                                     </x-jet-button>
                                 </div>
-                                {{--<div class="flex items-center justify-center mt-4">
+                                <div class="flex items-center justify-center mt-4">
                                     <p class="mt-1">
                                         <span class="text-[#8D98AA] text-[13px] font-normal font-sans">Don’t have an
                                             account?</span>
                                         <a class="text-blue-600 text-[15px] font-semibold hover:underline font-sans"
                                            href="{{ route('register-new-user') }}">Signup</a>
                                     </p>
-                                </div>--}}
+                                </div>
 
                             </div>
                         </div>
