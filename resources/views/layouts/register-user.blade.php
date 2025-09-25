@@ -24,11 +24,14 @@
     <script src="./assets/js/charts-pie.js" defer></script>--}}
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
+
+    <link rel="stylesheet" href="{{ url(''. mix('css/app.css', '')) }}">
+
+
     {{--<link rel="stylesheet" href="{{ asset('css/app.css') }}">--}}
     <wireui:scripts/>
     @livewireStyles
-
 </head>
 <body>
     <div class="font-sans text-gray-900 antialiased">
@@ -36,15 +39,19 @@
     </div>
 @stack('modals')
 
-@livewireScripts
+
 @livewire('livewire-ui-modal')
 
 <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    {{-- <script src="{{ mix('js/app.js') }}" defer></script> --}}
+
+    <script src="{{ url(''. mix('js/app.js')) }}" defer></script>
+
     {{--<script src="{{ asset('js/app.js')}}" defer></script>--}}
 
 <!----------------Added scripts goes here---------------->
 @stack('scripts')
+    @livewireScripts
 <!----------------./Added scripts goes here---------------->
 </body>
 </html>

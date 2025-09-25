@@ -43,7 +43,10 @@
 
     <title>Admission Form</title>
 
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    {{--  <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
+
+    <link rel="stylesheet" href="{{ url(''. mix('css/app.css', '')) }}">
+
     {{--<link rel="stylesheet" href="{{ asset('css/app.css') }}">--}}
 
     <wireui:scripts/>
@@ -69,7 +72,9 @@
     @livewire('livewire-ui-modal')
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    {{-- <script src="{{ mix('js/app.js') }}" defer></script> --}}
+
+    <script src="{{ url(''. mix('js/app.js')) }}" defer></script>
     {{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
