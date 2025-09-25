@@ -80,19 +80,19 @@
                     <div class="flex flex-col items-start justify-start">
                         @if(auth()->user()->foreigner == 0)
                             <div class="flex flex-col col-span-2 items-start ">
-                                <label class="text-[#8B939B] font-normal text-base">
+                                {{-- <label class="text-[#8B939B] font-normal text-base">
                                     Total Aggregate (MDCAT)
                                 </label>
-                                <p class="text-lg font-semibold">{{ auth()->user()->aggregate }}</p>
+                                <p class="text-lg font-semibold">{{ auth()->user()->aggregate }}</p> --}}
                             </div>
                         @endif
 
                         @if(auth()->user()->foreigner == 1)
                             <div class="flex flex-col col-span-2 items-start ">
-                                <label class="text-[#8B939B] font-normal text-base">
+                                {{-- <label class="text-[#8B939B] font-normal text-base">
                                     Total Aggregate (Overseas)
                                 </label>
-                                <p class="text-lg font-semibold">{{ auth()->user()->aggregate_overseas }}</p>
+                                <p class="text-lg font-semibold">{{ auth()->user()->aggregate_overseas }}</p> --}}
                             </div>
                         @endif
                     </div>

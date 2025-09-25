@@ -27,7 +27,7 @@
         </div>
     @endif
 
-    @if (auth()->user()->aggregate !== null)
+    {{-- @if (auth()->user()->aggregate !== null)
         <div class="mt-7 mb-7 bg-white rounded-lg "
             style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.03);">
             <div class="p-5 md:p-10">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif --}}
 
     
  <div class="mt-7 mb-7 bg-white rounded-lg"
@@ -317,16 +317,16 @@
 
 
     {{-- Admission Test Section --}}
-    <div class="mt-7 mb-7 bg-white rounded-lg"
+    {{-- <div class="mt-7 mb-7 bg-white rounded-lg"
         style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.03);">
         <div>
             <p class=" px-5 md:px-10 py-4 text-2xl font-medium text-[#333333] tracking-[0.29px] font-sans">Admission
                 Test</p>
             <hr class="border-t-2 w-full border-[#DAE4EA]">
-        </div>
+        </div> --}}
 
         {{-- MDCAT Test Information --}}
-        @if (auth()->user()->foreigner == 0)
+        {{-- @if (auth()->user()->foreigner == 0)
             @if ($admissionTest->md_cat_cnic !== null)
                 <div class="p-5 md:p-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-3">
@@ -356,11 +356,11 @@
                     </div>
                 </div>
             @endif
-        @endif
+        @endif --}}
 
 
         {{-- SAT Test Information --}}
-        @if (auth()->user()->foreigner == 1)
+        {{-- @if (auth()->user()->foreigner == 1)
         @if ($admissionTest->md_cat_cnic !== null)
         <div class="p-5 md:p-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-3">
@@ -432,11 +432,11 @@
                         </div>
                     </div>
                 </div>
-            @endif
+            @endif --}}
 
             {{-- UCAT Test Information --}}
 
-            @if ($admissionTest->ucat_test_date !== null)
+            {{-- @if ($admissionTest->ucat_test_date !== null)
                 <div class="p-5 md:p-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-3">
                         <div class="flex flex-col">
@@ -461,11 +461,11 @@
 
                     </div>
                 </div>
-            @endif
+            @endif --}}
 
             {{-- MCAT Test Information --}}
 
-            @if ($admissionTest->mcat_test_date !== null)
+            {{-- @if ($admissionTest->mcat_test_date !== null)
                 <div class="p-5 md:p-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-3">
                         <div class="flex flex-col">
@@ -491,7 +491,7 @@
                     </div>
                 </div>
             @endif
-        @endif
+        @endif --}}
     </div>
 
     <div class="mt-7 mb-7 pb-10 bg-white rounded-lg"
@@ -932,7 +932,7 @@
             @endif
 
             <!-- MDCAT Result Card Image -->
-            <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
+            {{-- <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
 
                 <span
@@ -942,7 +942,7 @@
                 <img src="{{ $mdcatResultCard }}" alt="MDCAT Result Card Image"
                     onclick="openModal('{{ $mdcatResultCard }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
-            </div>
+            </div> --}}
 
 
 

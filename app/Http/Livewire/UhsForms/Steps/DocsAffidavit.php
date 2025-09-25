@@ -604,31 +604,31 @@ class DocsAffidavit extends Component
             'aggregate_overseas' => $user->aggregate_overseas !== null ? $user->aggregate_overseas : null,
 
             //MDACT INFORMATION
-            'mdcatCnic' => $user->admissionTest->md_cat_cnic,
-            'mdcatCenter' => optional($user->admissionTest->mdcatCenter)->name ?? 'N/A',
-            'mdcatMarks' => $user->admissionTest->md_cat_obtained_marks,
-            'mdcatApplicantCnic' => $user->personalDetails->cnic_passport,
-            'mdcatPassingYear' => $user->admissionTest?->mdcatPassingYear?->name,
+            // 'mdcatCnic' => $user->admissionTest->md_cat_cnic,
+            // 'mdcatCenter' => optional($user->admissionTest->mdcatCenter)->name ?? 'N/A',
+            // 'mdcatMarks' => $user->admissionTest->md_cat_obtained_marks,
+            // 'mdcatApplicantCnic' => $user->personalDetails->cnic_passport,
+            // 'mdcatPassingYear' => $user->admissionTest?->mdcatPassingYear?->name,
 
             //SAT INFORMATION
-            'satTestDate' => $user->admissionTest->sat_test_date,
-            'satBiologyMarks' => $user->admissionTest->sat_biology_obtained_marks,
-            'satChemistryMarks' => $user->admissionTest->sat_chemistry_obtained_marks,
-            'satPhyMathMarks' => $user->admissionTest->sat_phy_math_obtained_marks,
-            'satUserName' => $user->admissionTest->sat_username,
-            'satPassword' => $user->admissionTest->sat_password,
+            // 'satTestDate' => $user->admissionTest->sat_test_date,
+            // 'satBiologyMarks' => $user->admissionTest->sat_biology_obtained_marks,
+            // 'satChemistryMarks' => $user->admissionTest->sat_chemistry_obtained_marks,
+            // 'satPhyMathMarks' => $user->admissionTest->sat_phy_math_obtained_marks,
+            // 'satUserName' => $user->admissionTest->sat_username,
+            // 'satPassword' => $user->admissionTest->sat_password,
 
             //UCAT INFORMATION
-            'ucatId' => $user->admissionTest->ucat_candidate_id,
-            'ucatTestDate' => $user->admissionTest->ucat_test_date,
-            'ucatObtainedMarks' => $user->admissionTest->ucat_obtained_marks,
-            'ucatBandScore' => $user->admissionTest->ucat_band,
+            // 'ucatId' => $user->admissionTest->ucat_candidate_id,
+            // 'ucatTestDate' => $user->admissionTest->ucat_test_date,
+            // 'ucatObtainedMarks' => $user->admissionTest->ucat_obtained_marks,
+            // 'ucatBandScore' => $user->admissionTest->ucat_band,
 
             // MCAT INFORMATION
-            'mcatTestDate' => $user->admissionTest->mcat_test_date,
-            'mcatObtaniedMarks' => $user->admissionTest->mcat_obtained_marks,
-            'mcatUserName' => $user->admissionTest->mcat_username,
-            'mcatPassword' => $user->admissionTest->mcat_password,
+            // 'mcatTestDate' => $user->admissionTest->mcat_test_date,
+            // 'mcatObtaniedMarks' => $user->admissionTest->mcat_obtained_marks,
+            // 'mcatUserName' => $user->admissionTest->mcat_username,
+            // 'mcatPassword' => $user->admissionTest->mcat_password,
 
             //College Preferences
             'mbbsPreference' => !empty($mbbsCollegePreferences) ? json_decode($mbbsCollegePreferences[0], true) : [],

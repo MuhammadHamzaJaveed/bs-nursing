@@ -328,11 +328,11 @@ class CollegesList extends Component
         $this->saveBdsList();
         $this->saveBdsListForeignAsOpenMerit();
 
-            $this->userServices->updateUser([
-                'aggregate' => $this->calculateAggregate(),
-                'aggregate_overseas' => $this->calculateOverseasAggregate(),
+            // $this->userServices->updateUser([
+            //     'aggregate' => $this->calculateAggregate(),
+            //     'aggregate_overseas' => $this->calculateOverseasAggregate(),
 
-            ], auth()->user()->id);
+            // ], auth()->user()->id);
 
         $this->emit('completeStep', 'step5Completed');
         $this->emit('goToStep', 6);

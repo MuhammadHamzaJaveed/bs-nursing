@@ -1179,7 +1179,7 @@
 
     <div class="grid grid-cols-2 mb-16">
         <div>
-            <button wire:click.prevent="$emit('goToStep', 5)"
+            <button wire:click.prevent="$emit('goToStep', 4)"
                 class=" bg-transparent hover:bg-white text-sm px-3 py-2 md:px-6 md:py-3 mb-2 rounded-lg border-2 border-[#9BABB7]  gap-2 "
                 type="button">
                 <span class="flex flex-row items-center gap-2 justify-center text-[#687076] font-semibold text-base">

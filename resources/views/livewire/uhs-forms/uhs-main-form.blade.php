@@ -1,7 +1,7 @@
 <div class="flex justify-center  flex-col items-center">
     <div class="container centered-container">
         <div class="mt-4 bg-opacity-50 rounded-lg hidden md:block">
-            <div class="bg-cover  sm:h-60 grid grid-cols-8 text-center rounded-lg relative items-center"
+            <div class="bg-cover  sm:h-60 grid grid-cols-7 text-center rounded-lg relative items-center"
                 style="background-color: #698cff">
 
                 <h2
@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="col-start-5 col-span-1 justify-center items-center h-16 sm:h-20 w-12 sm:w-20 absolute text-center"
+                {{-- <div class="col-start-5 col-span-1 justify-center items-center h-16 sm:h-20 w-12 sm:w-20 absolute text-center"
                     style="left: calc(2% - 40px);">
                     <div class="flex flex-col justify-center items-center">
                     @if ($step4Active)
@@ -74,9 +74,9 @@
                     <p class="text-sm text-white mt-1">Step 4</p>
                     <p class="text-base text-white  font-semibold">Admission Test</p>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="col-start-6 col-span-1 justify-center items-center h-16 sm:h-20 w-12 sm:w-20 absolute text-center"
+                <div class="col-start-5 col-span-1 justify-center items-center h-16 sm:h-20 w-12 sm:w-20 absolute text-center"
                     style="left: calc(2% - 40px);">
                     <div class="flex flex-col justify-center items-center">
                     @if ($step5Active)
@@ -87,8 +87,24 @@
                         <img src="{{ asset('images/unselected_preferences.svg') }}">
                     @endif
 
-                    <p class="text-sm  text-white mt-1">Step 5</p>
+                    <p class="text-sm  text-white mt-1">Step 4</p>
                     <p class="text-base font-semibold text-white  text-center">College Preferences</p>
+                    </div>
+                </div>
+
+                <div class="col-start-6 col-span-1 justify-center items-center h-16 sm:h-20 w-12 sm:w-20 absolute text-center"
+                    style="left: calc(2% - 40px);">
+                    <div class="flex flex-col justify-center items-center">
+                    @if ($step5Active)
+                        <img src="{{ asset('images/affidavit.svg') }}">
+                    @elseif($step5Completed)
+                        <img src="{{ asset('images/tick.svg') }}">
+                    @else
+                        <img src="{{ asset('images/unselected_affidavit.svg') }}">
+                    @endif
+
+                    <p class="text-sm text-white mt-1">Step 5</p>
+                    <p class="text-base font-semibold text-white " >Documents Upload</p>
                     </div>
                 </div>
 
@@ -104,22 +120,6 @@
                     @endif
 
                     <p class="text-sm text-white mt-1">Step 6</p>
-                    <p class="text-base font-semibold text-white " >Documents Upload</p>
-                    </div>
-                </div>
-
-                <div class="col-start-8 col-span-1 justify-center items-center h-16 sm:h-20 w-12 sm:w-20 absolute text-center"
-                    style="left: calc(2% - 40px);">
-                    <div class="flex flex-col justify-center items-center">
-                    @if ($step7Active)
-                        <img src="{{ asset('images/affidavit.svg') }}">
-                    @elseif($step7Completed)
-                        <img src="{{ asset('images/tick.svg') }}">
-                    @else
-                        <img src="{{ asset('images/unselected_affidavit.svg') }}">
-                    @endif
-
-                    <p class="text-sm text-white mt-1">Step 7</p>
                     <p class="text-base font-semibold text-white " >Undertaking</p>
                     </div>
                 </div>
@@ -137,16 +137,13 @@
         @if ($step === 3)
             <livewire:uhs-forms.steps.qualifications />
         @endif
-        @if ($step === 4)
-            <livewire:uhs-forms.steps.admission-test />
-        @endif
-        @if($step === 5)
+        @if($step === 4)
             <livewire:uhs-forms.steps.colleges-list />
         @endif
-        @if ($step === 6)
+        @if ($step === 5)
             <livewire:uhs-forms.steps.docs-affidavit />
         @endif
-        @if ($step === 7)
+        @if ($step === 6)
             <livewire:uhs-forms.steps.affidavit />
         @endif
     </div>

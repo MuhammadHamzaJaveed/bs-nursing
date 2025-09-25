@@ -9,32 +9,22 @@ class UhsMainForm extends Component
     public $step = 1;
 
     public $step1Active = true;
-
     public $step1Completed = false;
 
     public $step2Active = false;
-
     public $step2Completed = false;
 
     public $step3Active = false;
-
     public $step3Completed = false;
 
     public $step4Active = false;
-
     public $step4Completed = false;
 
     public $step5Active = false;
-
     public $step5Completed = false;
 
     public $step6Active = false;
-
     public $step6Completed = false;
-
-    public $step7Active = false;
-
-    public $step7Completed = false;
 
     /**
      * @return string[]
@@ -65,8 +55,6 @@ class UhsMainForm extends Component
             $this->setStepFive();
         } elseif ($step == 6) {
             $this->setStepSix();
-        }elseif ($step == 7) {
-            $this->setStepSeven();
         }
 
         $this->step = $step;
@@ -79,19 +67,15 @@ class UhsMainForm extends Component
     public function completeStep($step): void
     {
         $this->$step = true;
-
-        if ($this->step7Completed) {
-            $this->step7Active = false;
-        }
     }
+
     public function mount()
     {
         $user = auth()->user();
-        // $this->goToStep(7);
+
         if ($user->submitted_at && isset($user->otps->is_verified) && $user->otps->is_verified == 1) {
             $this->completeStep('step1Completed');
         } else {
-
             if ($user->program_priority) {
                 $this->completeStep('step1Completed');
                 $this->goToStep(2);
@@ -107,25 +91,18 @@ class UhsMainForm extends Component
                 $this->goToStep(4);
             }
 
-            if ($user->admissionTest) {
+            if (! blank($user->mbbsCollegePreferences) || ! blank($user->bdsCollegePreferences)) {
                 $this->completeStep('step4Completed');
                 $this->goToStep(5);
             }
-            if (! blank($user->mbbsCollegePreferences) || ! blank($user->bdsCollegePreferences)) {
-                $this->completeStep('step5Completed');
-                $this->goToStep(6);
-            }
 
             if ($user->userCnic) {
-                $this->completeStep('step6Completed');
-                $this->goToStep(7);
+                $this->completeStep('step5Completed');
+                $this->goToStep(6);
             }
         }
     }
 
-    /**
-     * @return void
-     */
     private function setStepOne(): void
     {
         $this->step1Active = true;
@@ -134,12 +111,8 @@ class UhsMainForm extends Component
         $this->step4Active = false;
         $this->step5Active = false;
         $this->step6Active = false;
-        $this->step7Active = false;
     }
 
-    /**
-     * @return void
-     */
     private function setStepTwo(): void
     {
         $this->step1Active = false;
@@ -148,12 +121,8 @@ class UhsMainForm extends Component
         $this->step4Active = false;
         $this->step5Active = false;
         $this->step6Active = false;
-        $this->step7Active = false;
     }
 
-    /**
-     * @return void
-     */
     private function setStepThree(): void
     {
         $this->step1Active = false;
@@ -162,7 +131,6 @@ class UhsMainForm extends Component
         $this->step4Active = false;
         $this->step5Active = false;
         $this->step6Active = false;
-        $this->step7Active = false;
     }
 
     private function setStepFour()
@@ -173,7 +141,6 @@ class UhsMainForm extends Component
         $this->step4Active = true;
         $this->step5Active = false;
         $this->step6Active = false;
-        $this->step7Active = false;
     }
 
     private function setStepFive()
@@ -184,7 +151,6 @@ class UhsMainForm extends Component
         $this->step4Active = false;
         $this->step5Active = true;
         $this->step6Active = false;
-        $this->step7Active = false;
     }
 
     private function setStepSix()
@@ -195,21 +161,8 @@ class UhsMainForm extends Component
         $this->step4Active = false;
         $this->step5Active = false;
         $this->step6Active = true;
-        $this->step7Active = false;
     }
-    private function setStepSeven()
-    {
-        $this->step1Active = false;
-        $this->step2Active = false;
-        $this->step3Active = false;
-        $this->step4Active = false;
-        $this->step5Active = false;
-        $this->step6Active = false;
-        $this->step7Active = true;
-    }
-    /**
-     * @return mixed
-     */
+
     public function render()
     {
         return view('livewire.uhs-forms.uhs-main-form')

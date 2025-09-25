@@ -377,31 +377,31 @@ class ApplicationStatus extends Component
             'aggregate_overseas' => auth()->user()->aggregate_overseas !== null ? auth()->user()->aggregate_overseas : null,
 
             //MDACT INFORMATION
-            'mdcatCnic' => $this->admissionTest->md_cat_cnic,
-            'mdcatCenter' => optional($this->admissionTest->mdcatCenter)->name ?? 'N/A',
-            'mdcatMarks' => $this->admissionTest->md_cat_obtained_marks,
-            'mdcatApplicantCnic' => $this->personalDetails->cnic_passport,
-            'mdcatPassingYear' => $this->admissionTest?->mdcatPassingYear?->name,
+            // 'mdcatCnic' => $this->admissionTest->md_cat_cnic,
+            // 'mdcatCenter' => optional($this->admissionTest->mdcatCenter)->name ?? 'N/A',
+            // 'mdcatMarks' => $this->admissionTest->md_cat_obtained_marks,
+            // 'mdcatApplicantCnic' => $this->personalDetails->cnic_passport,
+            // 'mdcatPassingYear' => $this->admissionTest?->mdcatPassingYear?->name,
             
             //SAT INFORMATION
-            'satTestDate' => $this->admissionTest->sat_test_date,
-            'satBiologyMarks' => $this->admissionTest->sat_biology_obtained_marks,
-            'satChemistryMarks' => $this->admissionTest->sat_chemistry_obtained_marks,
-            'satPhyMathMarks' => $this->admissionTest->sat_phy_math_obtained_marks,
-            'satUserName' => $this->admissionTest->sat_username,
-            'satPassword' => $this->admissionTest->sat_password,
+            // 'satTestDate' => $this->admissionTest->sat_test_date,
+            // 'satBiologyMarks' => $this->admissionTest->sat_biology_obtained_marks,
+            // 'satChemistryMarks' => $this->admissionTest->sat_chemistry_obtained_marks,
+            // 'satPhyMathMarks' => $this->admissionTest->sat_phy_math_obtained_marks,
+            // 'satUserName' => $this->admissionTest->sat_username,
+            // 'satPassword' => $this->admissionTest->sat_password,
         
             //UCAT INFORMATION
-            'ucatId' => $this->admissionTest->ucat_candidate_id,
-            'ucatTestDate' => $this->admissionTest->ucat_test_date,
-            'ucatObtainedMarks' => $this->admissionTest->ucat_obtained_marks,
-            'ucatBandScore' => $this->admissionTest->ucat_band,
+            // 'ucatId' => $this->admissionTest->ucat_candidate_id,
+            // 'ucatTestDate' => $this->admissionTest->ucat_test_date,
+            // 'ucatObtainedMarks' => $this->admissionTest->ucat_obtained_marks,
+            // 'ucatBandScore' => $this->admissionTest->ucat_band,
 
             // MCAT INFORMATION
-            'mcatTestDate' => $this->admissionTest->mcat_test_date,
-            'mcatObtaniedMarks' => $this->admissionTest->mcat_obtained_marks,
-            'mcatUserName' => $this->admissionTest->mcat_username,
-            'mcatPassword' => $this->admissionTest->mcat_password,
+            // 'mcatTestDate' => $this->admissionTest->mcat_test_date,
+            // 'mcatObtaniedMarks' => $this->admissionTest->mcat_obtained_marks,
+            // 'mcatUserName' => $this->admissionTest->mcat_username,
+            // 'mcatPassword' => $this->admissionTest->mcat_password,
 
             //College Preferences
             'mbbsPreference' => !empty($mbbsCollegePreferences) ? json_decode($mbbsCollegePreferences[0], true) : [],

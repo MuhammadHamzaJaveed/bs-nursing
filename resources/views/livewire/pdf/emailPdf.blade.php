@@ -18,7 +18,7 @@
             </tr>
         </table>
         <div style="text-align: center; font-weight: 200; font-size: medium; margin-top: 10px;">Admission Form</div>
-        <div style="margin-top: 2px; text-align: center; font-weight: 200; font-size: medium;">For Admission to First
+        {{-- <div style="margin-top: 2px; text-align: center; font-weight: 200; font-size: medium;">For Admission to First
             Year {{ config('envdata.pdf_program') }} Programme
         </div>
         <div style="margin-top: 2px; text-align: center; font-size: medium;">
@@ -32,7 +32,7 @@
                 <div style="margin-top: 10px; text-align: center; font-size: medium;">Your %aggregate (Overseas
                     Pakistani/Foreigner): <span style="color:red;">{{ $aggregate_overseas }}</span></div>
             @endif
-        @endif
+        @endif --}}
         <div style="margin-top: 10px; text-align: center; font-size: medium;">Challan ID: <span
                     style="color:green;">{{ $challanId }}</span></div>
         <div style="margin-top: 10px; text-align: center; font-size: medium;">Application ID: <span
@@ -280,7 +280,7 @@
                     style="font-size: small; text-align: left;font-size:large; color:green; font-weight: 100; margin-top: 10px;">
                 Part 6: Admission Test
             </div>
-            @if ($mdcatCnic !== null)
+            {{-- @if ($mdcatCnic !== null)
                 <table style="margin-top:10px; width: 100%; border-collapse: collapse;">
                     <tr>
                         <td
@@ -446,7 +446,7 @@
                             {{ $mcatPassword }}</td>
                     </tr>
                 </table>
-            @endif
+            @endif --}}
         </div>
         <div style="page-break-before: always;"></div>
         <div style="display: flex; margin-top: 100px; width: 100%; justify-content: space-between;">
