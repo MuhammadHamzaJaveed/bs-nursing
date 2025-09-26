@@ -334,8 +334,8 @@ class CollegesList extends Component
 
             // ], auth()->user()->id);
 
-        $this->emit('completeStep', 'step5Completed');
-        $this->emit('goToStep', 6);
+        $this->emit('completeStep', 'step4Completed');
+        $this->emit('goToStep', 5);
     }
 
     private function saveMbbsList(){

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSelectionListsTable extends Migration
+class AddIsEveningToCollegesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateSelectionListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('selection_lists', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('status');
-            $table->timestamps();
+        Schema::table('colleges', function (Blueprint $table) {
+            $table->boolean('is_evening')->default(false)->after('isBds');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateSelectionListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('selection_lists');
+        Schema::table('colleges', function (Blueprint $table) {
+            //
+        });
     }
 }

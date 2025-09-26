@@ -26,7 +26,7 @@ class CollegeSeeder extends Seeder
 
             $college->isReciprocal = $collegeData['isReciprocal'] ?? 0;
             $college->isBds        = $collegeData['isBds'] ?? 0;
-            $college->isFemale     = $collegeData['isFemale'] ?? 0;
+            $college->isFemale     = $collegeData['isFemale'] ?? 1;
 
             $college->save();
         }

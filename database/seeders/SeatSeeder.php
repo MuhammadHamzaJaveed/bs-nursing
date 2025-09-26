@@ -29,8 +29,8 @@ class SeatSeeder extends Seeder
     public function seats(): array
     {
         return [
-            'Open-Merit',
-            'Overseas',
+            'Morning',
+            'Evening',
             'Both',
         ];
     }
