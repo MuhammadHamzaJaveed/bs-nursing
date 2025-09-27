@@ -346,7 +346,7 @@ class Qualifications extends Component
         }*/
 
         $this->emit('completeStep', 'step3Completed');
-        $this->emit('goToStep', 4);
+        $this->emit('goToStep', 5);
     }
 
     /**

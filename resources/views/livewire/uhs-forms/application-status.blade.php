@@ -609,7 +609,7 @@
         </div>
 
         <div class="p-10 grid grid-cols-3 gap-5 mt-4">
-
+            @if(!empty($cnic))
             <!-- CNIC Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -620,7 +620,9 @@
                 <img src="{{ $cnic }}" alt="CNIC Image" onclick="openModal('{{ $cnic }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
+            @endif
 
+            @if(!empty($cnicBackSide))
             <!-- cnicBackSide Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -631,7 +633,9 @@
                 <img src="{{ $cnicBackSide }}" alt="cnicBackSide Image" onclick="openModal('{{ $cnicBackSide }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
+            @endif
 
+            @if(!empty($fatherCnic))
             <!-- Father's CNIC Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -643,8 +647,9 @@
                 <img src="{{ $fatherCnic }}" alt="Father's CNIC Image" onclick="openModal('{{ $fatherCnic }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
+            @endif
 
-
+            @if(!empty($fatherCnicBackSide))
             <!-- fatherCnicBackSide Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -656,7 +661,8 @@
                     onclick="openModal('{{ $fatherCnicBackSide }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
-
+            @endif
+            @if(!empty($intermediateTranscript))
             <!-- Intermediate Transcript Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -669,6 +675,9 @@
                     onclick="openModal('{{ $intermediateTranscript }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
+            @endif
+
+            @if(!empty($intermediateTranscriptBackSide))
 
             <!-- intermediateTranscriptBackSide Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
@@ -681,7 +690,8 @@
                     onclick="openModal('{{ $intermediateTranscriptBackSide }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
-
+            @endif
+            @if(!empty($matricTranscript))
             <!-- Matric Transcript Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -694,7 +704,8 @@
                     onclick="openModal('{{ $matricTranscript }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
-
+            @endif
+            @if(!empty($matricTranscriptBackSide))
             <!-- matricTranscriptBackSide Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -706,7 +717,8 @@
                     onclick="openModal('{{ $matricTranscriptBackSide }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
-            @if (auth()->user()->qualifications->ssc_exam_passeds_id == 2)
+            @endif
+            @if (auth()->user()->qualifications->ssc_exam_passeds_id == 2 && false)
                 <!-- equivalenceCertificateSsc Image -->
                 <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                     style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -719,7 +731,7 @@
                         class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
                 </div>
             @endif
-            @if (auth()->user()->qualifications->hssc_exam_passeds_id == 2)
+            @if (auth()->user()->qualifications->hssc_exam_passeds_id == 2 && false)
                 <!-- equivalenceCertificateSsc Image -->
                 <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                     style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -737,6 +749,7 @@
 
 
             <!-- Signature Image -->
+            @if(!empty($signature))
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
 
@@ -747,7 +760,8 @@
                 <img src="{{ $signature }}" alt="Signature Image" onclick="openModal('{{ $signature }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
-
+            @endif
+            @if(!empty($photo))
             <!-- Color Photo Image -->
             <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                 style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
@@ -759,6 +773,7 @@
                 <img src="{{ $photo }}" alt="Color Photo Image" onclick="openModal('{{ $photo }}')"
                     class="border border-[#DAE4EA] rounded-lg justify-center object-cover object-center w-72 h-72 cursor-pointer">
             </div>
+            @endif
 
             <!-- Disability Photo Image -->
             @if (in_array(2, $seatCategories))
@@ -816,7 +831,7 @@
             @endif
 
             <!-- Stay Card Image -->
-            @if (auth()->user()->foreigner == 1)
+            @if (auth()->user()->foreigner == 1 && false)
                 <div class="mt-5 border-2 border-[#DAE4EA] p-5 rounded-lg flex flex-col justify-center items-center transition-transform hover:transform hover:-translate-y-2"
                     style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.10);">
 

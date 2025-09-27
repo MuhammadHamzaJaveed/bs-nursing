@@ -128,7 +128,7 @@
     </div>
 
     <div class="container centered-container">
-        @if ($step === 1)
+       {{-- @if ($step === 1)
             <livewire:uhs-forms.steps.programs />
         @endif
         @if ($step === 2)
@@ -146,5 +146,34 @@
         @if ($step === 6)
             <livewire:uhs-forms.steps.affidavit />
         @endif
-    </div>
+
+        --}}
+
+
+            @if ($step === 1)
+                <livewire:uhs-forms.steps.programs />
+            @endif
+            @if ($step === 2)
+                <livewire:uhs-forms.steps.personal-details />
+            @endif
+            @if ($step === 3)
+                <livewire:uhs-forms.steps.qualifications />
+            @endif
+            {{--
+            @if ($step === 4)
+                    <livewire:uhs-forms.steps.admission-test />
+                @endif
+            --}}
+            @if($step === 5)
+                <livewire:uhs-forms.steps.colleges-list />
+            @endif
+            @if ($step === 6)
+                <livewire:uhs-forms.steps.docs-affidavit />
+            @endif
+            @if ($step === 7)
+                <livewire:uhs-forms.steps.affidavit />
+            @endif
+
+
+</div>
 </div>
