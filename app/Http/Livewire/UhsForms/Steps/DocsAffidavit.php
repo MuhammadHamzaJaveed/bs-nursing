@@ -129,76 +129,79 @@ class DocsAffidavit extends Component
         $this->seatCategories = auth()->user()->seatCategories->pluck('id')->toArray();
 
         $rules = [
-            // 'cnic'                          => ['required', 'image', 'max:1024',],
-            // 'fatherCnic'                    => ['required', 'image', 'max:1024',],
-            // 'signature'                     => ['required', 'image', 'max:1024',],
-            // 'photo'                         => ['required', 'image', 'max:1024',],
-            // 'intermediateTranscript'        => ['required', 'image', 'max:1024',],
-            // 'mdcatResultCard'               => ['required', 'image', 'max:1024',],
-            // 'matricTranscript'              => ['required', 'image', 'max:1024',],
-            // 'matricTranscriptBackSide'      => ['nullable', 'image', 'max:1024',],
-            // 'intermediateTranscriptBackSide' => ['nullable', 'image','max:1024',],
-            // 'cnicBackSide'                  => ['required', 'image', 'max:1024',],
-            // 'fatherCnicBackSide'            => ['required', 'image', 'max:1024',],
             'agreed'                        => 'required | accepted',
-            
         ];
 
-        // if(auth()->user()->qualifications->ssc_exam_passeds_id == 2)
-        // {
-        //     $rules += [
-        //         'equivalenceCertificateSsc'  => ['required', 'image', 'max:1024',],
-        //     ];
-        // }
+        if (empty(auth()->user()->userDomicileCertificatePhoto) && empty($this->domicileCertificate)) {
 
-        // if(auth()->user()->qualifications->hssc_exam_passeds_id == 2)
-        // {
-        //     $rules += [
-        //         'equivalenceCertificateHssc'  => ['required', 'image', 'max:1024',],
-        //     ];
-        // }
+            $rules += [
+                'domicileCertificate' => ['required', 'image', 'max:1024'],
+            ];
 
-        // if (in_array(1, $this->seatCategories) ||
-        //     in_array(2, $this->seatCategories) ||
-        //     in_array(3, $this->seatCategories) ||
-        //     in_array(4, $this->seatCategories) ||
-        //     in_array(6, $this->seatCategories))
-        // {
-        //     $rules += [
-        //         'domicileCertificate'           => ['required', 'image', 'max:1024',],
-        //     ];
-        // }
+        }
 
-        // if (in_array(2, $this->seatCategories)) {
-        //     $rules += [
-        //         'disability'       => ['required', 'image', 'max:1024',],
-        //         'disabilitySecond' =>['required', 'image', 'max:1024',],
-        //     ];
-        // }
-        // if (in_array(3, $this->seatCategories)) {
-        //     $rules += [
-        //         'verifiedByCeo'          => ['nullable', 'image', 'max:1024',],
-        //         'schoolLeaving'          => ['required', 'image', 'max:1024',],
-        //         'provisionalCertificate' => ['required', 'image', 'max:1024',],
-        //         'underDevelopedExtra1'   => ['nullable', 'image', 'max:1024',],
-        //         'underDevelopedExtra2'   => ['nullable', 'image', 'max:1024',],
-        //         'underDevelopedExtra3'   => ['nullable', 'image', 'max:1024',],
+        if (empty(auth()->user()->userMatricTranscriptPhoto) && empty($this->matricTranscript))
+        {
+            $rules += [
+                'matricTranscript' => ['required', 'image', 'max:1024'],
+            ];
+        }
 
-        //     ];
-        // }
-        // if (in_array(4, $this->seatCategories)) {
-        //     $rules += [
-        //         'cholistanCertificate'       => ['required', 'image', 'max:1024',],
-        //         'cholistanCertificateSecond' => ['required', 'image', 'max:1024',],
+        if (empty(auth()->user()->userIntermediateTranscriptPhoto) && empty($this->intermediateTranscript))
+        {
+            $rules += [
+                'intermediateTranscript' => ['required', 'image', 'max:1024'],
+            ];
+        }
 
-        //     ];
-        // }
-        // if (in_array(5, $this->seatCategories)) {
-        //     $rules += [
-        //         'stayCard'                   => ['required', 'image', 'max:1024',],
-        //         'foreignHsscCertificate'     => ['required', 'image', 'max:1024',], 
-        //     ];
-        // }
+        if (empty(auth()->user()->userCnic) && empty($this->cnic))
+        {
+            $rules += [
+                'cnic' => ['required', 'image', 'max:1024'],
+            ];
+        }
+
+        if (empty(auth()->user()->userCnicBackSide) && empty($this->cnicBackSide))
+        {
+            $rules += [
+                'cnicBackSide' => ['required', 'image', 'max:1024'],
+            ];
+        }
+
+        if (empty(auth()->user()->userFatherCnic) && empty($this->fatherCnic))
+        {
+            $rules += [
+                'fatherCnic' => ['required', 'image', 'max:1024'],
+            ];
+        }
+
+        if (empty(auth()->user()->userFatherCnicBackSide) && empty($this->fatherCnicBackSide))
+        {
+            $rules += [
+                'fatherCnicBackSide' => ['required', 'image', 'max:1024'],
+            ];
+        }
+
+        if (empty(auth()->user()->userColorPhoto) && empty($this->photo))
+        {
+
+            $rules += [
+                'photo' => ['required', 'image', 'max:1024'],
+            ];
+        }
+
+
+
+
+        if(empty(auth()->user()->userSignatureImage) && empty($this->signature)){
+            $rules += [
+                'signature' => ['required', 'image', 'max:1024'],
+            ];
+
+        }
+
+
+
 
 
         return $rules;
@@ -993,18 +996,7 @@ class DocsAffidavit extends Component
      */
     protected function userCnic()
     {
-        if (empty(auth()->user()->userCnic) && empty($this->cnic))
-        {
-            $this->validate([
-                'cnic' => 'required',
-            ]);
-        }
-
         if (!is_string($this->cnic) && $this->cnic) {
-           /* if (auth()->user()?->userCnic) {
-                Storage::delete(auth()?->user()?->userCnic?->path);
-                auth()->user()?->userCnic?->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()?->userCnic?->id,
             ], $this->formatImageData($this->cnic, 'userCnic'));
@@ -1018,19 +1010,7 @@ class DocsAffidavit extends Component
      */
     protected function userFatherCnic(): void
     {
-        if (empty(auth()->user()->userFatherCnic) && empty($this->fatherCnic))
-        {
-            $this->validate([
-                'fatherCnic' => 'required',
-            ]);
-        }
-
-
         if (!is_string($this->fatherCnic) && $this->fatherCnic) {
-            /*if (auth()->user()->userFatherCnic) {
-                Storage::delete(auth()->user()->userFatherCnic->path);
-                auth()->user()->userFatherCnic->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userFatherCnic?->id,
             ], $this->formatImageData($this->fatherCnic, 'userFatherCnic'));
@@ -1044,24 +1024,7 @@ class DocsAffidavit extends Component
      */
     protected function userSignature(): void
     {
-       /* if (empty(auth()->user()->userSignatureImage))
-        {
-            $this->validate([
-                'signature' => 'required',
-            ]);
-        }*/
-        if (empty(auth()->user()->userSignatureImage) && empty($this->signature))
-        {
-            $this->validate([
-                'signature' => 'required',
-            ]);
-        }
-
         if (!is_string($this->signature) && $this->signature) {
-           /* if (auth()->user()->userSignatureImage) {
-                Storage::delete(auth()->user()->userSignatureImage->path);
-                auth()->user()->userSignatureImage->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userSignatureImage?->id,
             ], $this->formatImageData($this->signature, 'signature'));
@@ -1076,17 +1039,7 @@ class DocsAffidavit extends Component
      */
     protected function userColor(): void
     {
-        if (empty(auth()->user()->userColorPhoto) && empty($this->photo))
-        {
-            $this->validate([
-                'photo' => 'required',
-            ]);
-        }
         if (!is_string($this->photo) && $this->photo) {
-           /* if (auth()->user()->userColorPhoto) {
-                Storage::delete(auth()->user()->userColorPhoto->path);
-                auth()->user()->userColorPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userColorPhoto?->id,
             ], $this->formatImageData($this->photo, 'userColorPhoto'));
@@ -1100,21 +1053,7 @@ class DocsAffidavit extends Component
      */
     protected function userDisability(): void
     {
-           /* if (empty(auth()->user()->userDisabilityPhoto))
-            {
-                if((in_array(2, $this->seatCategories)))
-                {
-                    $this->validate([
-                        'disability' => 'required',
-                    ]);
-                }
-            }*/
-
         if (!is_string($this->disability) && $this->disability) {
-           /* if (auth()->user()->userDisabilityPhoto) {
-                Storage::delete(auth()->user()->userDisabilityPhoto->path);
-                auth()->user()->userDisabilityPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userDisabilityPhoto?->id,
             ], $this->formatImageData($this->disability, 'userDisabilityPhoto'));
@@ -1126,21 +1065,7 @@ class DocsAffidavit extends Component
      */
     protected function userSchoolLeaving(): void
     {
-       /* if (empty(auth()->user()->userSchoolLeavingPhoto))
-        {
-            if((in_array(3, $this->seatCategories)))
-            {
-                $this->validate([
-                    'schoolLeaving' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->schoolLeaving) && $this->schoolLeaving) {
-           /* if (auth()->user()->userSchoolLeavingPhoto) {
-                Storage::delete(auth()->user()->userSchoolLeavingPhoto->path);
-                auth()->user()->userSchoolLeavingPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userSchoolLeavingPhoto?->id,
             ], $this->formatImageData($this->schoolLeaving, 'userSchoolLeavingPhoto'));
@@ -1152,21 +1077,7 @@ class DocsAffidavit extends Component
      */
     protected function userCholistanCertificate(): void
     {
-        /*if (empty(auth()->user()->userCholistanCertificatePhoto))
-        {
-            if((in_array(4, $this->seatCategories)))
-            {
-                $this->validate([
-                    'cholistanCertificate' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->cholistanCertificate) && $this->cholistanCertificate) {
-            /*if (auth()->user()->userCholistanCertificatePhoto) {
-                Storage::delete(auth()->user()->userCholistanCertificatePhoto->path);
-                auth()->user()->userCholistanCertificatePhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userCholistanCertificatePhoto?->id,
             ], $this->formatImageData($this->cholistanCertificate, 'userCholistanCertificatePhoto'));
@@ -1178,22 +1089,7 @@ class DocsAffidavit extends Component
      */
     protected function userStayCard(): void
     {
-
-       /* if (empty(auth()->user()->userStayCardPhoto))
-        {
-            if((in_array(5, $this->seatCategories)))
-            {
-                $this->validate([
-                    'stayCard' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->stayCard) && $this->stayCard) {
-           /* if (auth()->user()->userStayCardPhoto) {
-                Storage::delete(auth()->user()->userStayCardPhoto->path);
-                auth()->user()->userStayCardPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userStayCardPhoto?->id,
             ], $this->formatImageData($this->stayCard, 'userStayCardPhoto'));
@@ -1205,17 +1101,7 @@ class DocsAffidavit extends Component
      */
     protected function userIntermediateTranscript(): void
     {
-        if (empty(auth()->user()->userIntermediateTranscriptPhoto) && empty($this->intermediateTranscript))
-        {
-            $this->validate([
-                'intermediateTranscript' => 'required',
-            ]);
-        }
         if (!is_string($this->intermediateTranscript) && $this->intermediateTranscript) {
-            /*if (auth()->user()->userIntermediateTranscriptPhoto) {
-                Storage::delete(auth()->user()->userIntermediateTranscriptPhoto->path);
-                auth()->user()->userIntermediateTranscriptPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userIntermediateTranscriptPhoto?->id,
             ], $this->formatImageData($this->intermediateTranscript, 'userIntermediateTranscriptPhoto'));
@@ -1229,23 +1115,7 @@ class DocsAffidavit extends Component
      */
     protected function userVerifiedByCeo(): void
     {
-
-       /* if (empty(auth()->user()->userVerifiedByCeoPhoto))
-        {
-            if((in_array(3, $this->seatCategories)))
-            {
-                $this->validate([
-                    'verifiedByCeo' => 'required',
-                ]);
-            }
-        }*/
-
-
         if (!is_string($this->verifiedByCeo) && $this->verifiedByCeo) {
-            /*if (auth()->user()->userVerifiedByCeoPhoto) {
-                Storage::delete(auth()->user()->userVerifiedByCeoPhoto->path);
-                auth()->user()->userVerifiedByCeoPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userVerifiedByCeoPhoto?->id,
             ], $this->formatImageData($this->verifiedByCeo, 'userVerifiedByCeoPhoto'));
@@ -1257,21 +1127,7 @@ class DocsAffidavit extends Component
      */
     protected function userDomicileCertificate()
     {
-        if (empty(auth()->user()->userDomicileCertificatePhoto) && empty($this->domicileCertificate))
-        {
-            if(auth()->user()->seat_id == 1 || auth()->user()->seat_id == 3)
-            {
-                $this->validate([
-                    'domicileCertificate' => 'required',
-                ]);
-            }
-        }
-
         if (!is_string($this->domicileCertificate) && $this->domicileCertificate) {
-            /* if (auth()->user()->userDomicileCertificatePhoto) {
-                Storage::delete(auth()->user()->userDomicileCertificatePhoto->path);
-                auth()->user()->userDomicileCertificatePhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userDomicileCertificatePhoto?->id,
             ], $this->formatImageData($this->domicileCertificate, 'userDomicileCertificatePhoto'));
@@ -1287,19 +1143,7 @@ class DocsAffidavit extends Component
      */
     protected function userMdcatResultCard(): void
     {
-        if (empty(auth()->user()->userMdcatResultCardPhoto) && empty($this->mdcatResultCard))
-        {
-            $this->validate([
-                'mdcatResultCard' => 'required',
-            ]);
-        }
-
-
         if (!is_string($this->mdcatResultCard) && $this->mdcatResultCard) {
-           /* if (auth()->user()->userMdcatResultCardPhoto) {
-                Storage::delete(auth()->user()->userMdcatResultCardPhoto->path);
-                auth()->user()->userMdcatResultCardPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userMdcatResultCardPhoto?->id,
             ], $this->formatImageData($this->mdcatResultCard, 'userMdcatResultCardPhoto'));
@@ -1314,18 +1158,7 @@ class DocsAffidavit extends Component
      */
     protected function userMatricTranscriptBackSide(): void
     {
-
-       /* if (empty(auth()->user()->userMatricTranscriptBackSidePhoto))
-        {
-            $this->validate([
-                'matricTranscriptBackSide' => 'required',
-            ]);
-        }*/
         if (!is_string($this->matricTranscriptBackSide) && $this->matricTranscriptBackSide) {
-           /* if (auth()->user()->userMatricTranscriptBackSidePhoto) {
-                Storage::delete(auth()->user()->userMatricTranscriptBackSidePhoto->path);
-                auth()->user()->userMatricTranscriptBackSidePhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userMatricTranscriptBackSidePhoto?->id,
             ], $this->formatImageData($this->matricTranscriptBackSide, 'userMatricTranscriptBackSidePhoto'));
@@ -1337,20 +1170,7 @@ class DocsAffidavit extends Component
      */
     protected function userEquivalenceSsc(): void
     {
-        if (empty(auth()->user()->userEquivalenceSscPhoto) && empty($this->equivalenceCertificateSsc))
-        {
-            if (auth()->user()->qualifications->ssc_exam_passeds_id == 2)
-            {
-                $this->validate([
-                    'equivalenceCertificateSsc' => 'required',
-                ]);
-            }
-        }
         if (!is_string($this->equivalenceCertificateSsc) && $this->equivalenceCertificateSsc) {
-         /*   if (auth()->user()->userEquivalenceSscPhoto) {
-                Storage::delete(auth()->user()->userEquivalenceSscPhoto->path);
-                auth()->user()->userEquivalenceSscPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userEquivalenceSscPhoto?->id,
             ], $this->formatImageData($this->equivalenceCertificateSsc, 'userEquivalenceSscPhoto'));
@@ -1362,18 +1182,7 @@ class DocsAffidavit extends Component
      */
     protected function userIntermediateTranscriptBackSide(): void
     {
-
-        /*if (empty(auth()->user()->userIntermediateTranscriptBackSidePhoto))
-        {
-            $this->validate([
-                'intermediateTranscriptBackSide' => 'required',
-            ]);
-        }*/
         if (!is_string($this->intermediateTranscriptBackSide) && $this->intermediateTranscriptBackSide) {
-          /*  if (auth()->user()->userIntermediateTranscriptBackSidePhoto) {
-                Storage::delete(auth()->user()->userIntermediateTranscriptBackSidePhoto->path);
-                auth()->user()->userIntermediateTranscriptBackSidePhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userIntermediateTranscriptBackSidePhoto?->id,
             ], $this->formatImageData($this->intermediateTranscriptBackSide,
@@ -1386,29 +1195,7 @@ class DocsAffidavit extends Component
      */
     protected function userEquivalenceHssc(): void
     {
-       /* if (empty(auth()->user()->userEquivalenceHsscPhoto))
-        {
-            $this->validate([
-                'equivalenceCertificateHssc' => 'required',
-            ]);
-        }*/
-
-        if (empty(auth()->user()->userEquivalenceHsscPhoto) && empty($this->equivalenceCertificateHssc))
-        {
-            if (auth()->user()->qualifications->hssc_exam_passeds_id == 2)
-            {
-                $this->validate([
-                    'equivalenceCertificateHssc' => 'required',
-                ]);
-            }
-        }
-
-
         if (!is_string($this->equivalenceCertificateHssc) && $this->equivalenceCertificateHssc) {
-          /*  if (auth()->user()->userEquivalenceHsscPhoto) {
-                Storage::delete(auth()->user()->userEquivalenceHsscPhoto->path);
-                auth()->user()->userEquivalenceHsscPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userEquivalenceHsscPhoto?->id,
             ], $this->formatImageData($this->equivalenceCertificateHssc, 'userEquivalenceHsscPhoto'));
@@ -1420,18 +1207,7 @@ class DocsAffidavit extends Component
      */
     protected function userCnicBackSide(): void
     {
-        if (empty(auth()->user()->userCnicBackSide) && empty($this->cnicBackSide))
-        {
-            $this->validate([
-                'cnicBackSide' => 'required',
-            ]);
-        }
-
         if (!is_string($this->cnicBackSide) && $this->cnicBackSide) {
-            /*if (auth()->user()->userCnicBackSide) {
-                Storage::delete(auth()->user()->userCnicBackSide->path);
-                auth()->user()->userCnicBackSide->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userCnicBackSide?->id,
             ], $this->formatImageData($this->cnicBackSide, 'userCnicBackSide'));
@@ -1446,18 +1222,8 @@ class DocsAffidavit extends Component
      */
     protected function userFatherCnicBackSide(): void
     {
-
-        if (empty(auth()->user()->userFatherCnicBackSide) && empty($this->fatherCnicBackSide))
-        {
-            $this->validate([
-                'fatherCnicBackSide' => 'required',
-            ]);
-        }
         if (!is_string($this->fatherCnicBackSide) && $this->fatherCnicBackSide) {
-            /*if (auth()->user()->userFatherCnicBackSide) {
-                Storage::delete(auth()->user()->userFatherCnicBackSide->path);
-                auth()->user()->userFatherCnicBackSide->delete();
-            }*/
+
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userFatherCnicBackSide?->id,
             ], $this->formatImageData($this->fatherCnicBackSide, 'userFatherCnicBackSide'));
@@ -1474,17 +1240,7 @@ class DocsAffidavit extends Component
      */
     protected function userMatricTranscript(): void
     {
-        if (empty(auth()->user()->userMatricTranscriptPhoto) && empty($this->matricTranscript))
-        {
-            $this->validate([
-                'matricTranscript' => 'required',
-            ]);
-        }
         if (!is_string($this->matricTranscript) && $this->matricTranscript) {
-           /* if (auth()->user()->userMatricTranscriptPhoto) {
-                Storage::delete(auth()->user()->userMatricTranscriptPhoto->path);
-                auth()->user()->userMatricTranscriptPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userMatricTranscriptPhoto?->id,
             ], $this->formatImageData($this->matricTranscript, 'userMatricTranscriptPhoto'));
@@ -1500,21 +1256,7 @@ class DocsAffidavit extends Component
      */
     protected function userProvisionalCertificate(): void
     {
-     /*   if (empty(auth()->user()->userProvisionalCertificatePhoto))
-        {
-            if((in_array(3, $this->seatCategories)))
-            {
-                $this->validate([
-                    'provisionalCertificate' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->provisionalCertificate) && $this->provisionalCertificate) {
-           /* if (auth()->user()->userProvisionalCertificatePhoto) {
-                Storage::delete(auth()->user()->userProvisionalCertificatePhoto->path);
-                auth()->user()->userProvisionalCertificatePhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userProvisionalCertificatePhoto?->id,
             ], $this->formatImageData($this->provisionalCertificate, 'userProvisionalCertificatePhoto'));
@@ -1526,21 +1268,7 @@ class DocsAffidavit extends Component
      */
     protected function userUnderDevelopedFirst(): void
     {
-       /* if (empty(auth()->user()->userUnderDevelopedFirstPhoto))
-        {
-            if((in_array(3, $this->seatCategories)))
-            {
-                $this->validate([
-                    'underDevelopedExtra1' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->underDevelopedExtra1) && $this->underDevelopedExtra1) {
-           /* if (auth()->user()->userUnderDevelopedFirstPhoto) {
-                Storage::delete(auth()->user()->userUnderDevelopedFirstPhoto->path);
-                auth()->user()->userUnderDevelopedFirstPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userUnderDevelopedFirstPhoto?->id,
             ], $this->formatImageData($this->underDevelopedExtra1, 'userUnderDevelopedFirstPhoto'));
@@ -1552,21 +1280,7 @@ class DocsAffidavit extends Component
      */
     protected function userUnderDevelopedSecond(): void
     {
-       /* if (empty(auth()->user()->userUnderDevelopedSecondPhoto))
-        {
-            if((in_array(3, $this->seatCategories)))
-            {
-                $this->validate([
-                    'underDevelopedExtra2' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->underDevelopedExtra2) && $this->underDevelopedExtra2) {
-            /*if (auth()->user()->userUnderDevelopedSecondPhoto) {
-                Storage::delete(auth()->user()->userUnderDevelopedSecondPhoto->path);
-                auth()->user()->userUnderDevelopedSecondPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userUnderDevelopedSecondPhoto?->id,
             ], $this->formatImageData($this->underDevelopedExtra2, 'userUnderDevelopedSecondPhoto'));
@@ -1577,21 +1291,7 @@ class DocsAffidavit extends Component
      */
     protected function userUnderDevelopedThird(): void
     {
-      /*  if (empty(auth()->user()->userUnderDevelopedThirdPhoto))
-        {
-            if((in_array(3, $this->seatCategories)))
-            {
-                $this->validate([
-                    'underDevelopedExtra3' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->underDevelopedExtra3) && $this->underDevelopedExtra3) {
-           /* if (auth()->user()->userUnderDevelopedThirdPhoto) {
-                Storage::delete(auth()->user()->userUnderDevelopedThirdPhoto->path);
-                auth()->user()->userUnderDevelopedThirdPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userUnderDevelopedThirdPhoto?->id,
             ], $this->formatImageData($this->underDevelopedExtra3, 'userUnderDevelopedThirdPhoto'));
@@ -1603,22 +1303,7 @@ class DocsAffidavit extends Component
      */
     protected function userCholistanCertificateSecond(): void
     {
-
-     /*   if (empty(auth()->user()->userCholistanCertificateSecondPhoto))
-        {
-            if((in_array(4, $this->seatCategories)))
-            {
-                $this->validate([
-                    'cholistanCertificateSecond' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->cholistanCertificateSecond) && $this->cholistanCertificateSecond) {
-            /*if (auth()->user()->userCholistanCertificateSecondPhoto) {
-                Storage::delete(auth()->user()->userCholistanCertificateSecondPhoto->path);
-                auth()->user()->userCholistanCertificateSecondPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userCholistanCertificateSecondPhoto?->id,
             ], $this->formatImageData($this->cholistanCertificateSecond, 'userCholistanCertificateSecondPhoto'));
@@ -1630,21 +1315,7 @@ class DocsAffidavit extends Component
      */
     protected function userDisabilitySecond(): void
     {
-        /*if (empty(auth()->user()->userDisabilitySecondPhoto))
-        {
-            if((in_array(2, $this->seatCategories)))
-            {
-                $this->validate([
-                    'disabilitySecond' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->disabilitySecond) && $this->disabilitySecond) {
-            /*if (auth()->user()->userDisabilitySecondPhoto) {
-                Storage::delete(auth()->user()->userDisabilitySecondPhoto->path);
-                auth()->user()->userDisabilitySecondPhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userDisabilitySecondPhoto?->id,
             ], $this->formatImageData($this->disabilitySecond, 'userDisabilitySecondPhoto'));
@@ -1656,22 +1327,7 @@ class DocsAffidavit extends Component
      */
     protected function userForeignHsscCertificate(): void
     {
-
-       /* if (empty(auth()->user()->userForeignHsscCertificatePhoto))
-        {
-            if((in_array(5, $this->seatCategories)))
-            {
-                $this->validate([
-                    'foreignHsscCertificate' => 'required',
-                ]);
-            }
-        }*/
-
         if (!is_string($this->foreignHsscCertificate) && $this->foreignHsscCertificate) {
-           /* if (auth()->user()->userForeignHsscCertificatePhoto) {
-                Storage::delete(auth()->user()->userForeignHsscCertificatePhoto->path);
-                auth()->user()->userForeignHsscCertificatePhoto->delete();
-            }*/
             $this->mediaServices->updateOrCreateUserProfileImage([
                 'id' => auth()->user()->userForeignHsscCertificatePhoto?->id,
             ], $this->formatImageData($this->foreignHsscCertificate, 'userForeignHsscCertificatePhoto'));

@@ -47,21 +47,7 @@
                     </li>
 
                 </ol>
-                {{-- <div class="flex justify-center items-center gap-5 mt-5 flex-col md:flex-row">
-                <div>
-                    <a href="https://uhs.edu.pk/mcat/privateadmission.pdf" target="_blank">
-                                <x-button label="Important Instructions for Applicants"
-                                    style="color: white; background-color: #179F9E; font-size: 17px" right-icon="information-circle" />
-                    </a>              
-                </div>
-                <div>
-                    <a href="https://uhs.edu.pk/mcat/notice2023241.pdf" target="_blank">
-                            <x-button label="Relaxation in Condition of Attestation by IBCC"
-                                style="color: white; background-color: #179F9E;font-size: 17px" right-icon="information-circle" />
-                    </a>              
-                </div>
-                
-                </div> --}}
+
                 <div class="mt-7 flex items-center gap-4">
                     <input type="checkbox" wire:model.defer="agreed" required id="agree-label" class="w-5 h-5 rounded border-3 text-2xl font-bold text-blue-600 bg-gray-100 border-gray-900 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-100 dark:border-gray-300">
                         <span class="text-black font-semibold text-lg">Candidates are responsible for uploading the correct documents in the required format. Incorrect or improperly uploaded documents will result in the application being rejected without notice, and the university will not be held responsible. Prepare your documents according to the instructions and seek assistance if needed. Uploading fake or fabricated documents will lead to immediate rejection and possible legal action</span>
@@ -123,17 +109,6 @@
                         </p>
                     </div>
 
-                    {{-- <div class="w-full md:w-3/5">
-                        <x-filepond.filepond size="1024*1024"  name="domicileCertificate" id="domicileCertificates"
-                            wire:model="domicileCertificate" file="{{ $domicileCertificate }}"
-                            allowFileImagePreview
-                            acceptedFileTypes="['image/*']" />
-                        @error('domicileCertificate')
-                            <div class="text-center error text-sm text-red-600 mt-2">Domicile Certificate Image should
-                                be
-                                less than 1mb and not empty.</div>
-                        @enderror
-                    </div> --}}
                     <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                     required
@@ -166,16 +141,6 @@
                     </p>
                 </div>
 
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="matricTranscript" wire:model="matricTranscript" required
-                                         allowFileImagePreview
-                        file="{{ $matricTranscript }}" acceptedFileTypes="['image/*']" />
-                    @error('matricTranscript')
-                        <div class="text-center text-sm error text-red-600 mt-2">Transcript of Matric Grade Image
-                            should be less than 1mb and not empty.</div>
-                    @enderror
-                </div> --}}
-
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 required
@@ -204,17 +169,6 @@
                         Certificate- SSC or equivalent
                     </p>
                 </div>
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="matricTranscriptBackSides"  wire:model="matricTranscriptBackSide"
-                                         allowFileImagePreview
-                        file="{{ $matricTranscriptBackSide }}" acceptedFileTypes="['image/*']" />
-                    @error('matricTranscriptBackSide')
-                        <div class="text-center text-sm error text-red-600 mt-2">Transcript of Matric Grade (Back side)
-                            Image
-                            should be less than 1mb and not empty. </div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -258,20 +212,6 @@
                             :fileName="auth()->user()->userEquivalenceSscPhoto?->name ?? ''"
                     />
 
-                    {{--<div class="w-full md:w-3/5">
-                        <x-filepond.filepond size="1024*1024" id="equivalenceCertificateSscs" required
-                                             allowFileImagePreview
-                            wire:model="equivalenceCertificateSsc" file="{{ $equivalenceCertificateSsc }}"
-                            acceptedFileTypes="['image/*']" />
-                        @error('equivalenceCertificateSsc')
-                            <div class="text-center text-sm error text-red-600 mt-2">Equivalence Certificate Image
-                                should be
-                                less than 1mb and not empty. </div>
-                        @enderror
-                    </div>--}}
-
-
-
                 </div>
             @endif
 
@@ -297,16 +237,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="intermediateTranscript" wire:model="intermediateTranscript" required
-                                         allowFileImagePreview
-                        file="{{ $intermediateTranscript }}" acceptedFileTypes="['image/*']" />
-                    @error('intermediateTranscript')
-                        <div class="text-center text-sm error text-red-600 mt-2">Transcript of A-levels/12th Grade Image
-                            should be less than 1mb and not empty.</div>
-                    @enderror
-                </div> --}}
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 required
@@ -339,18 +269,6 @@
                         equivalent
                     </p>
                 </div>
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="intermediateTranscriptBackSide"
-                                         allowFileImagePreview
-                        wire:model="intermediateTranscriptBackSide" file="{{ $intermediateTranscriptBackSide }}"
-                        acceptedFileTypes="['image/*']" />
-                    @error('intermediateTranscriptBackSide')
-                        <div class="text-center text-sm error text-red-600 mt-2">Transcript of A-levels/12th Grade (Back
-                            Side) Image
-                            should be less than 1mb and not empty.</div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -387,17 +305,6 @@
                         </p>
                     </div>
 
-                    {{--<div class="w-full md:w-3/5">
-                        <x-filepond.filepond size="1024*1024" id="equivalenceCertificateHssc" required
-                            wire:model="equivalenceCertificateHssc" file="{{ $equivalenceCertificateHssc }}"
-                                             allowFileImagePreview
-                            acceptedFileTypes="['image/*']" />
-                        @error('equivalenceCertificateHssc')
-                            <div class="text-center text-sm error text-red-600 mt-2">Equivalence Certificate Image
-                                should be
-                                less than 1mb and not empty. </div>
-                        @enderror
-                    </div>--}}
                     <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                             required
@@ -410,44 +317,6 @@
                 </div>
             @endif
 
-            {{-- mdcat result card --}}
-            <div id="mdcatResultCard" class="grid grid-cols-1  md:grid-cols-2 gap-8 items-center justify-center mt-8">
-                <div x-data="{ tooltipOpen: false }" class="flex items-start gap-3">
-                    <div @click="tooltipOpen = !tooltipOpen" class="relative group">
-                        <x-heroicon-s-information-circle class="h-7 w-7 text-blue-600 cursor-pointer" />
-                        <div x-show="tooltipOpen" @click.away="tooltipOpen = false"
-                            class="absolute bg-gray-300 text-black p-3 shadow-md rounded-md border max-w-lg w-96 border-gray-500 top-8 left-0 z-10 opacity-100 transition-opacity duration-300">
-                            <p>Please upload your valid MDCAT result card. In the case of overseas Pakistanis or dual
-                                nationality holders, upload your SAT-II, International MCAT, or UCAT result card. Image
-                                of the front side of the document shall only be uploaded.</p>
-                        </div>
-                    </div>
-                    <p>
-                        Upload Valid MDCAT Result Card(or SAT-II, Intl. MCAT, UCAT for Overseas/Dual Nationals)
-                        <span class="text-red-600">*</span>
-                    </p>
-                </div>
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" name="mdcatResultCard" id="mdcatResultCards" required
-                                         allowFileImagePreview
-                        wire:model="mdcatResultCard" file="{{ $mdcatResultCard }}"
-                        acceptedFileTypes="['image/*']" />
-                    @error('mdcatResultCard')
-                        <div class="text-center error text-sm text-red-600 mt-2">Relevant Result Card Image should be
-                            less than 1mb and not empty.</div>
-                    @enderror
-                </div> --}}
-
-                <x-dynamic-file-upload
-                            inputHeading="Only Jpg or Jpeg"
-                required
-            label="MDcat Result Card"
-            name="mdcatResultCard"
-            :filePath="auth()->user()->userMdcatResultCardPhoto?->path ?? ''"
-            :fileName="auth()->user()->userMdcatResultCardPhoto?->name ?? ''"
-    />
-            </div>
 
             {{-- cnic field --}}
             <div id="cnicqweqwedddd" class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center mt-8">
@@ -469,16 +338,6 @@
                         <span class="text-red-600">*</span>
                     </p>
                 </div>
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" name="cnic" id="cnicqweqwe" required wire:model="cnic"
-                                         allowFileImagePreview
-                        file="{{ $cnic }}" acceptedFileTypes="['image/*']" />
-                    @error('cnic')
-                        <div class="text-center error text-sm text-red-600 mt-2">CNIC/POC/B-Form/Passport Image should be
-                            less than 1mb and not empty.</div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -513,18 +372,6 @@
                     </p>
                 </div>
 
-                {{-- <div class="w-full md:w-3/5">
-
-                    <x-filepond.filepond size="1024*1024" id="cnicBackSide" required wire:model="cnicBackSide"
-                                         allowFileImagePreview
-                        file="{{ $cnicBackSide }}" acceptedFileTypes="['image/*']" />
-                    @error('cnicBackSide')
-                        <div class="text-center text-sm error text-red-600 mt-2">CNIC/POC/B-Form/Passport (Back Side) Image
-                            should be
-                            less than 1mb and not empty. </div>
-                    @enderror
-                </div> --}}
-
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 required
@@ -557,15 +404,6 @@
                     </p>
                 </div>
 
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="fatherCnic" required wire:model="fatherCnic" file="{{ $fatherCnic }}"
-                                         allowFileImagePreview
-                        acceptedFileTypes="['image/*']" />
-                    @error('fatherCnic')
-                        <div class="text-center text-sm error text-red-600 mt-2">CNIC/POC/B-Form/Passport of
-                            Father/Mother/Guardian Image should be less than 1mb and not empty.</div>
-                    @enderror
-                </div> --}}
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 required
@@ -597,16 +435,6 @@
                         <span class="text-red-600">*</span>
                     </p>
                 </div>
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="fatherCnicBackSide" required wire:model="fatherCnicBackSide"
-                                         allowFileImagePreview
-                        file="{{ $fatherCnicBackSide }}" acceptedFileTypes="['image/*']" />
-                    @error('fatherCnicBackSide')
-                        <div class="text-center text-sm error text-red-600 mt-2">CNIC/POC/B-Form/Passport (Back Side) of
-                            Father/Mother/Guardian Image should be less than 1mb and not empty.</div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -641,17 +469,6 @@
                     </p>
                 </div>
 
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="signature213" required wire:model="signature"
-                                         allowFileImagePreview
-                        file="{{ $signature }}" acceptedFileTypes="['image/*']" />
-                    @error('signature')
-                        <div class="text-center text-sm error text-red-600 mt-2">Signature and left thumb impression Image
-                            should be
-                            less than 1mb and not empty. </div>
-                    @enderror
-                </div> --}}
-
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 required
@@ -681,17 +498,6 @@
                         <span class="text-red-600">*</span>
                     </p>
                 </div>
-                {{-- 
-                <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="photo33333" required wire:model="photo" file="{{ $photo }}"
-                                         allowFileImagePreview
-                        acceptedFileTypes="['image/*']" />
-                    @error('photo')
-                        <div class="text-center error text-sm text-red-600 mt-2">Recent color Photograph should be less
-                            than
-                            1mb and not empty.</div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -705,85 +511,102 @@
             </div>
 
 
-            {{-- Mandatory Fields end here --}}
+        </div>
+    </div>
+    @if(1 != 1)
 
 
-            @if (auth()->user()->foreigner == 1)
-                {{-- Valid Stay Card/Residence --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center mt-8">
 
 
-                    <div x-data="{ tooltipOpen: false }" class="flex items-start gap-3">
-                        <div @click="tooltipOpen = !tooltipOpen" class="relative group">
-                            <x-heroicon-s-information-circle class="h-7 w-7 text-blue-600 cursor-pointer" />
-                            <div x-show="tooltipOpen" @click.away="tooltipOpen = false"
-                                class="absolute bg-gray-300 text-black p-3 shadow-md rounded-md border max-w-lg w-96 border-gray-500 top-8 left-0 z-10 opacity-100 transition-opacity duration-300">
-                                <p>Valid Stay Card/ Residence Card/ blue Card/ Iqama or related
-                                    documents for Overseas Pakistanis (being a Pakistani citizen
-                                    permanently resident in a foreign country)</p>
-                            </div>
-                        </div>
-                        <p>
-                            Upload Valid Stay Card/Residence Document
-                            <span class="text-red-600">*</span>
-                        </p>
+        {{-- mdcat result card --}}
+        <div id="mdcatResultCard" class="grid grid-cols-1  md:grid-cols-2 gap-8 items-center justify-center mt-8">
+            <div x-data="{ tooltipOpen: false }" class="flex items-start gap-3">
+                <div @click="tooltipOpen = !tooltipOpen" class="relative group">
+                    <x-heroicon-s-information-circle class="h-7 w-7 text-blue-600 cursor-pointer" />
+                    <div x-show="tooltipOpen" @click.away="tooltipOpen = false"
+                         class="absolute bg-gray-300 text-black p-3 shadow-md rounded-md border max-w-lg w-96 border-gray-500 top-8 left-0 z-10 opacity-100 transition-opacity duration-300">
+                        <p>Please upload your valid MDCAT result card. In the case of overseas Pakistanis or dual
+                            nationality holders, upload your SAT-II, International MCAT, or UCAT result card. Image
+                            of the front side of the document shall only be uploaded.</p>
                     </div>
-                    {{-- <div class="w-full md:w-3/5">
-                        <x-filepond.filepond size="1024*1024" allowFileImagePreview id="stayCard" wire:model="stayCard" file="{{ $stayCard }}"
-                            acceptedFileTypes="['image/*']" />
-                        @error('stayCard')
-                            <div class="text-center error text-sm text-red-600 mt-2">Valid Stay card/residence Image should
-                                be
-                                less
-                                than 1mb and not empty.</div>
-                        @enderror
-                    </div> --}}
+                </div>
+                <p>
+                    Upload Valid MDCAT Result Card(or SAT-II, Intl. MCAT, UCAT for Overseas/Dual Nationals)
+                    <span class="text-red-600">*</span>
+                </p>
+            </div>
 
-                    <x-dynamic-file-upload
-                            inputHeading="Only Jpg or Jpeg"
+            <x-dynamic-file-upload
+                    inputHeading="Only Jpg or Jpeg"
+                    required
+                    label="MDcat Result Card"
+                    name="mdcatResultCard"
+                    :filePath="auth()->user()->userMdcatResultCardPhoto?->path ?? ''"
+                    :fileName="auth()->user()->userMdcatResultCardPhoto?->name ?? ''"
+            />
+        </div>
+
+
+
+        {{-- Mandatory Fields end here --}}
+
+
+
+        {{-- Valid Stay Card/Residence --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center mt-8">
+
+
+            <div x-data="{ tooltipOpen: false }" class="flex items-start gap-3">
+                <div @click="tooltipOpen = !tooltipOpen" class="relative group">
+                    <x-heroicon-s-information-circle class="h-7 w-7 text-blue-600 cursor-pointer" />
+                    <div x-show="tooltipOpen" @click.away="tooltipOpen = false"
+                         class="absolute bg-gray-300 text-black p-3 shadow-md rounded-md border max-w-lg w-96 border-gray-500 top-8 left-0 z-10 opacity-100 transition-opacity duration-300">
+                        <p>Valid Stay Card/ Residence Card/ blue Card/ Iqama or related
+                            documents for Overseas Pakistanis (being a Pakistani citizen
+                            permanently resident in a foreign country)</p>
+                    </div>
+                </div>
+                <p>
+                    Upload Valid Stay Card/Residence Document
+                    <span class="text-red-600">*</span>
+                </p>
+            </div>
+
+            <x-dynamic-file-upload
+                    inputHeading="Only Jpg or Jpeg"
                     required
                     label="Stay Card"
                     name="stayCard"
                     :filePath="auth()->user()->userStayCardPhoto?->path ?? ''"
                     :fileName="auth()->user()->userStayCardPhoto?->name ?? ''"
             />
-                </div>
+        </div>
 
-                {{-- foreignHsscCertificate  --}}
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center mt-8">
+        {{-- foreignHsscCertificate  --}}
 
-                    <div x-data="{ tooltipOpen: false }" class="flex items-start gap-3">
-                        <div @click="tooltipOpen = !tooltipOpen" class="relative group">
-                            <x-heroicon-s-information-circle class="h-7 w-7 text-blue-600 cursor-pointer" />
-                            <div x-show="tooltipOpen" @click.away="tooltipOpen = false"
-                                class="absolute bg-gray-300 text-black p-3 shadow-md rounded-md border max-w-lg w-96 border-gray-500 top-8 left-0 z-10 opacity-100 transition-opacity duration-300">
-                                <p>Please upload clear and legible images of High School Certificate issued by the
-                                    respective
-                                    foreign educational institute confirming applicant to
-                                    have completed HSSC/ equivalent studies as a
-                                    regular student.</p>
-                            </div>
-                        </div>
-                        <p>
-                            High School Certificate for HSSC/ Equivalent Studies Confirmation
-                            <span class="text-red-600">*</span>
-                        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center mt-8">
+
+            <div x-data="{ tooltipOpen: false }" class="flex items-start gap-3">
+                <div @click="tooltipOpen = !tooltipOpen" class="relative group">
+                    <x-heroicon-s-information-circle class="h-7 w-7 text-blue-600 cursor-pointer" />
+                    <div x-show="tooltipOpen" @click.away="tooltipOpen = false"
+                         class="absolute bg-gray-300 text-black p-3 shadow-md rounded-md border max-w-lg w-96 border-gray-500 top-8 left-0 z-10 opacity-100 transition-opacity duration-300">
+                        <p>Please upload clear and legible images of High School Certificate issued by the
+                            respective
+                            foreign educational institute confirming applicant to
+                            have completed HSSC/ equivalent studies as a
+                            regular student.</p>
                     </div>
-{{-- 
-                    <div class="w-full md:w-3/5">
-                        <x-filepond.filepond size="1024*1024" allowFileImagePreview id="foreignHsscCertificate" required wire:model="foreignHsscCertificate"
-                            file="{{ $foreignHsscCertificate }}" acceptedFileTypes="['image/*']" />
-                        @error('foreignHsscCertificate')
-                            <div class="text-center text-sm error text-red-600 mt-2"> High School Certificate for HSSC/
-                                Equivalent Studies Image
-                                should be
-                                less than 1mb and not empty. </div>
-                        @enderror
-                    </div> --}}
+                </div>
+                <p>
+                    High School Certificate for HSSC/ Equivalent Studies Confirmation
+                    <span class="text-red-600">*</span>
+                </p>
+            </div>
 
-                    <x-dynamic-file-upload
-                            inputHeading="Only Jpg or Jpeg"
+            <x-dynamic-file-upload
+                    inputHeading="Only Jpg or Jpeg"
                     required
                     label="Foreign Hssc Certificate"
                     name="foreignHsscCertificate"
@@ -791,15 +614,12 @@
                     :fileName="auth()->user()->userForeignHsscCertificatePhoto?->name ?? ''"
             />
 
-                </div>
-            @endif
         </div>
-    </div>
-
     <div class="mt-7 mb-7 bg-white rounded-lg"
         style="box-shadow: 0px 0px 10.666666984558105px 5.333333492279053px rgba(0, 0, 0, 0.03);">
         <div>
-            <p class="p-5 md:px-10 py-4 text-2xl font-medium text-[#333333] tracking-[0.29px] font-sans">Other
+            <p class="p-5 md:px-10 py-4 text-2xl font-medium text-[#333333] tracking-[0.29px] font-sans">
+                Other
                 Document(s)
                 (if any)
             </p>
@@ -830,17 +650,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="extraDocRequire1" wire:model="extraDocRequire1"
-                                         allowFileImagePreview
-                        file="{{ $extraDocRequire1 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire1')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) First Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 label="Extra Document 1"
@@ -868,16 +677,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire2" wire:model="extraDocRequire2"
-                        file="{{ $extraDocRequire2 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire2')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Second Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 label="Extra Document 2"
@@ -902,17 +701,6 @@
                         Document(s) Third Page
                     </p>
                 </div>
-
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" id="extraDocRequire3" allowFileImagePreview wire:model="extraDocRequire3"
-                        file="{{ $extraDocRequire3 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire3')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Third Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -939,16 +727,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire4" wire:model="extraDocRequire4"
-                        file="{{ $extraDocRequire4 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire4')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Fourth Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 label="Extra Document 4"
@@ -973,17 +751,6 @@
                         Document(s) Fifth Page
                     </p>
                 </div>
-
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire5" wire:model="extraDocRequire5"
-                        file="{{ $extraDocRequire5 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire5')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Fifth Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -1010,17 +777,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire6" wire:model="extraDocRequire6"
-                        file="{{ $extraDocRequire6 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire6')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Sixth Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
-
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 label="Extra Document 6"
@@ -1046,16 +802,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire7" wire:model="extraDocRequire7"
-                        file="{{ $extraDocRequire7 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire7')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Seventh Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 label="Extra Document 7"
@@ -1080,17 +826,6 @@
                         Document(s) Eigth Page
                     </p>
                 </div>
-
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire8" wire:model="extraDocRequire8"
-                        file="{{ $extraDocRequire8 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire8')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Eigth Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
 
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
@@ -1117,17 +852,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire9" wire:model="extraDocRequire9"
-                        file="{{ $extraDocRequire9 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire9')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Ninth Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
-
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 label="Extra Document 9"
@@ -1153,16 +877,6 @@
                     </p>
                 </div>
 
-
-                {{-- <div class="w-full md:w-3/5">
-                    <x-filepond.filepond size="1024*1024" allowFileImagePreview id="extraDocRequire10" wire:model="extraDocRequire10"
-                        file="{{ $extraDocRequire10 }}" acceptedFileTypes="['image/*']" />
-                    @error('extraDocRequire10')
-                        <div class="text-center text-sm error text-red-600 mt-2">Other
-                            Document(s) Tenth Page Image
-                            should be less than 1mb.</div>
-                    @enderror
-                </div> --}}
                 <x-dynamic-file-upload
                             inputHeading="Only Jpg or Jpeg"
                 label="Extra Document 10"
@@ -1176,7 +890,7 @@
 
         </div>
     </div>
-
+    @endif
     <div class="grid grid-cols-2 mb-16">
         <div>
             <button wire:click.prevent="$emit('goToStep', 4)"
